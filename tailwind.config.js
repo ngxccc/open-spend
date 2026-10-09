@@ -29,16 +29,32 @@ module.exports = {
           foreground: '#09090b',
           container: '#3f3f46',
         },
+        secondary: {
+          DEFAULT: '#27272b',
+          foreground: '#f4f4f5',
+        },
+        muted: {
+          DEFAULT: '#27272a',
+          foreground: '#a1a1aa',
+        },
+        destructive: {
+          DEFAULT: '#ef4444',
+          foreground: '#ffffff',
+        },
         border: {
           DEFAULT: '#27272a',
           subtle: '#3f3f46',
           interactive: '#52525b',
         },
+        input: '#27272a',
+        ring: '#3f3f46',
+        background: '#121214',
+        foreground: '#f4f4f5',
         success: '#10b981',
         danger: '#ef4444',
         brand: '#f59e0b',
       },
     },
   },
-  plugins: [],
+  plugins: [require('tailwindcss-animate')],
 };
