@@ -9,6 +9,7 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { router } from "expo-router";
 import { Button, Toast } from "@/components/ui";
 import { GoogleLogo, OpenSpendEmblem } from "@/components/icons";
 import {
@@ -230,9 +231,7 @@ export default function LoginScreen() {
                 <Text className="text-sm text-on-surface-variant">
                   Chưa có tài khoản?
                 </Text>
-                <Pressable
-                  onPress={() => triggerToast("Mở màn hình Đăng ký mới")}
-                >
+                <Pressable onPress={() => router.push("/register")}>
                   <Text className="text-sm font-bold text-primary underline">
                     Tạo tài khoản mới
                   </Text>
