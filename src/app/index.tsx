@@ -20,6 +20,10 @@ import {
   Lock,
   Mail,
 } from "lucide-react-native";
+interface LoginErrors {
+  identifier?: string;
+  password?: string;
+}
 
 export default function LoginScreen() {
   const [identifier, setIdentifier] = useState("");
@@ -27,6 +31,7 @@ export default function LoginScreen() {
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState<LoginErrors>({});
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   const triggerToast = (msg: string) => {
@@ -36,17 +41,38 @@ export default function LoginScreen() {
     }, 2800);
   };
 
+  const clearError = (field: keyof LoginErrors) => {
+    if (errors[field]) {
+      setErrors((prev) => ({ ...prev, [field]: undefined }));
+    }
+  };
+
   const handleLogin = () => {
-    if (!identifier.trim() || !password.trim()) {
-      triggerToast("Vui lòng nhập đầy đủ thông tin");
+    const newErrors: LoginErrors = {};
+    const trimmedId = identifier.trim();
+
+    if (!trimmedId) {
+      newErrors.identifier = "Vui lòng nhập địa chỉ email";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmedId)) {
+      newErrors.identifier = "Địa chỉ email không đúng định dạng";
+    }
+
+    if (!password) {
+      newErrors.password = "Vui lòng nhập mật khẩu";
+    }
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
       return;
     }
+
+    setErrors({});
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
+      triggerToast("Đăng nhập thành công!");
     }, 800);
   };
-
   const handleGuestMode = () => {
     triggerToast("Đang kích hoạt Chế độ Khách...");
   };
@@ -94,13 +120,21 @@ export default function LoginScreen() {
                 <Text className="text-sm font-semibold text-on-surface">
                   Email
                 </Text>
-                <View className="flex-row items-center bg-surface-container-low rounded-xl border border-border h-12 px-3.5 focus:border-border-interactive">
+                <View
+                  className={`flex-row items-center bg-surface-container-low rounded-xl border h-12 px-3.5 ${errors.identifier
+                      ? "border-danger"
+                      : "border-border focus:border-border-interactive"
+                    }`}
+                >
                   <View className="mr-3">
-                    <Mail size={20} color="#A1A1AA" />
+                    <Mail size={20} color={errors.identifier ? "#ef4444" : "#A1A1AA"} />
                   </View>
                   <TextInput
                     value={identifier}
-                    onChangeText={setIdentifier}
+                    onChangeText={(text) => {
+                      setIdentifier(text);
+                      clearError("identifier");
+                    }}
                     placeholder="name@openfinance.vn"
                     placeholderTextColor="#71717A"
                     className="flex-1 text-base text-primary h-full"
@@ -108,6 +142,11 @@ export default function LoginScreen() {
                     keyboardType="email-address"
                   />
                 </View>
+                {errors.identifier ? (
+                  <Text className="text-xs text-danger font-medium mt-0.5">
+                    {errors.identifier}
+                  </Text>
+                ) : null}
               </View>
 
               {/* Input: Password */}
@@ -115,13 +154,21 @@ export default function LoginScreen() {
                 <Text className="text-sm font-semibold text-on-surface">
                   Mật khẩu
                 </Text>
-                <View className="flex-row items-center bg-surface-container-low rounded-xl border border-border h-12 px-3.5 focus:border-border-interactive">
+                <View
+                  className={`flex-row items-center bg-surface-container-low rounded-xl border h-12 px-3.5 ${errors.password
+                      ? "border-danger"
+                      : "border-border focus:border-border-interactive"
+                    }`}
+                >
                   <View className="mr-3">
-                    <Lock size={20} color="#A1A1AA" />
+                    <Lock size={20} color={errors.password ? "#ef4444" : "#A1A1AA"} />
                   </View>
                   <TextInput
                     value={password}
-                    onChangeText={setPassword}
+                    onChangeText={(text) => {
+                      setPassword(text);
+                      clearError("password");
+                    }}
                     placeholder="••••••••••••"
                     placeholderTextColor="#71717A"
                     secureTextEntry={!showPassword}
@@ -140,6 +187,11 @@ export default function LoginScreen() {
                     )}
                   </Pressable>
                 </View>
+                {errors.password ? (
+                  <Text className="text-xs text-danger font-medium mt-0.5">
+                    {errors.password}
+                  </Text>
+                ) : null}
               </View>
 
               {/* Remember Me & Forgot Password */}

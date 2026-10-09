@@ -38,6 +38,13 @@ function calculateStrength(pwd: string) {
 
   return { score, label: labels[score] || "Yếu" };
 }
+interface RegisterErrors {
+  fullName?: string;
+  email?: string;
+  password?: string;
+  confirmPassword?: string;
+  terms?: string;
+}
 
 export default function RegisterScreen() {
   const [fullName, setFullName] = useState("");
@@ -48,6 +55,7 @@ export default function RegisterScreen() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [agreeTerms, setAgreeTerms] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState<RegisterErrors>({});
   const [toast, setToast] = useState<{ message: string; variant: ToastVariant } | null>(null);
 
   const triggerToast = (message: string, variant: ToastVariant = "success") => {
@@ -57,27 +65,51 @@ export default function RegisterScreen() {
     }, 3000);
   };
 
+  const clearError = (field: keyof RegisterErrors) => {
+    if (errors[field]) {
+      setErrors((prev) => ({ ...prev, [field]: undefined }));
+    }
+  };
 
   const { score: strengthScore, label: strengthLabel } = calculateStrength(password);
 
   const handleRegister = () => {
-    if (!fullName.trim() || !email.trim() || !password || !confirmPassword) {
-      triggerToast("Vui lòng điền đầy đủ thông tin", "error");
-      return;
+    const newErrors: RegisterErrors = {};
+    const trimmedName = fullName.trim();
+    const trimmedEmail = email.trim();
+
+    if (!trimmedName) {
+      newErrors.fullName = "Vui lòng nhập họ và tên";
     }
-    if (password.length < 8) {
-      triggerToast("Mật khẩu phải có tối thiểu 8 ký tự", "error");
-      return;
+
+    if (!trimmedEmail) {
+      newErrors.email = "Vui lòng nhập địa chỉ email";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmedEmail)) {
+      newErrors.email = "Địa chỉ email không đúng định dạng";
     }
-    if (password !== confirmPassword) {
-      triggerToast("Mật khẩu xác nhận không khớp", "error");
-      return;
+
+    if (!password) {
+      newErrors.password = "Vui lòng nhập mật khẩu";
+    } else if (password.length < 8) {
+      newErrors.password = "Mật khẩu phải có tối thiểu 8 ký tự";
     }
+
+    if (!confirmPassword) {
+      newErrors.confirmPassword = "Vui lòng xác nhận lại mật khẩu";
+    } else if (password !== confirmPassword) {
+      newErrors.confirmPassword = "Mật khẩu xác nhận không khớp";
+    }
+
     if (!agreeTerms) {
-      triggerToast("Vui lòng đồng ý với Điều khoản dịch vụ", "error");
+      newErrors.terms = "Vui lòng đồng ý với điều khoản dịch vụ để tiếp tục";
+    }
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
       return;
     }
 
+    setErrors({});
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
@@ -131,27 +163,35 @@ export default function RegisterScreen() {
             <View className="w-full bg-surface-container rounded-2xl p-5 border border-border gap-5 shadow-sm">
               {/* Field 1: Họ và tên */}
               <View className="gap-2">
-                <View className="flex-row items-center justify-between">
-                  <Text className="text-sm font-semibold text-on-surface">
-                    Họ và tên
-                  </Text>
-                  <Text className="text-xs font-medium text-on-surface-variant">
-                    Bắt buộc
-                  </Text>
-                </View>
-                <View className="flex-row items-center bg-surface-container-low rounded-xl border border-border h-12 px-3.5 focus:border-border-interactive">
+                <Text className="text-sm font-semibold text-on-surface">
+                  Họ và tên
+                </Text>
+                <View
+                  className={`flex-row items-center bg-surface-container-low rounded-xl border h-12 px-3.5 ${errors.fullName
+                    ? "border-danger"
+                    : "border-border focus:border-border-interactive"
+                    }`}
+                >
                   <View className="mr-3">
-                    <User size={20} color="#A1A1AA" />
+                    <User size={20} color={errors.fullName ? "#ef4444" : "#A1A1AA"} />
                   </View>
                   <TextInput
                     value={fullName}
-                    onChangeText={setFullName}
+                    onChangeText={(text) => {
+                      setFullName(text);
+                      clearError("fullName");
+                    }}
                     placeholder="Nguyễn Văn A"
                     placeholderTextColor="#71717A"
                     className="flex-1 text-base text-primary h-full"
                     autoCapitalize="words"
                   />
                 </View>
+                {errors.fullName ? (
+                  <Text className="text-xs text-danger font-medium mt-0.5">
+                    {errors.fullName}
+                  </Text>
+                ) : null}
               </View>
 
               {/* Field 2: Email */}
@@ -159,13 +199,21 @@ export default function RegisterScreen() {
                 <Text className="text-sm font-semibold text-on-surface">
                   Email
                 </Text>
-                <View className="flex-row items-center bg-surface-container-low rounded-xl border border-border h-12 px-3.5 focus:border-border-interactive">
+                <View
+                  className={`flex-row items-center bg-surface-container-low rounded-xl border h-12 px-3.5 ${errors.email
+                    ? "border-danger"
+                    : "border-border focus:border-border-interactive"
+                    }`}
+                >
                   <View className="mr-3">
-                    <Mail size={20} color="#A1A1AA" />
+                    <Mail size={20} color={errors.email ? "#ef4444" : "#A1A1AA"} />
                   </View>
                   <TextInput
                     value={email}
-                    onChangeText={setEmail}
+                    onChangeText={(text) => {
+                      setEmail(text);
+                      clearError("email");
+                    }}
                     placeholder="name@openfinance.vn"
                     placeholderTextColor="#71717A"
                     className="flex-1 text-base text-primary h-full"
@@ -173,6 +221,11 @@ export default function RegisterScreen() {
                     keyboardType="email-address"
                   />
                 </View>
+                {errors.email ? (
+                  <Text className="text-xs text-danger font-medium mt-0.5">
+                    {errors.email}
+                  </Text>
+                ) : null}
               </View>
 
               {/* Field 3: Mật khẩu */}
@@ -180,13 +233,21 @@ export default function RegisterScreen() {
                 <Text className="text-sm font-semibold text-on-surface">
                   Mật khẩu
                 </Text>
-                <View className="flex-row items-center bg-surface-container-low rounded-xl border border-border h-12 px-3.5 focus:border-border-interactive">
+                <View
+                  className={`flex-row items-center bg-surface-container-low rounded-xl border h-12 px-3.5 ${errors.password
+                    ? "border-danger"
+                    : "border-border focus:border-border-interactive"
+                    }`}
+                >
                   <View className="mr-3">
-                    <Lock size={20} color="#A1A1AA" />
+                    <Lock size={20} color={errors.password ? "#ef4444" : "#A1A1AA"} />
                   </View>
                   <TextInput
                     value={password}
-                    onChangeText={setPassword}
+                    onChangeText={(text) => {
+                      setPassword(text);
+                      clearError("password");
+                    }}
                     placeholder="Tối thiểu 8 ký tự"
                     placeholderTextColor="#71717A"
                     secureTextEntry={!showPassword}
@@ -205,7 +266,11 @@ export default function RegisterScreen() {
                     )}
                   </Pressable>
                 </View>
-
+                {errors.password ? (
+                  <Text className="text-xs text-danger font-medium mt-0.5">
+                    {errors.password}
+                  </Text>
+                ) : null}
                 {/* Password Strength Indicator */}
                 <View className="mt-2.5 mb-1 gap-2">
                   <View className="flex-row items-center gap-1.5">
@@ -215,10 +280,10 @@ export default function RegisterScreen() {
                         <View
                           key={index}
                           className={`flex-1 h-1.5 rounded-full ${isActive
-                              ? strengthScore <= 2
-                                ? "bg-amber-400"
-                                : "bg-primary"
-                              : "bg-surface-container-high"
+                            ? strengthScore <= 2
+                              ? "bg-amber-400"
+                              : "bg-primary"
+                            : "bg-surface-container-high"
                             }`}
                         />
                       );
@@ -242,13 +307,21 @@ export default function RegisterScreen() {
                 <Text className="text-sm font-semibold text-on-surface">
                   Xác nhận mật khẩu
                 </Text>
-                <View className="flex-row items-center bg-surface-container-low rounded-xl border border-border h-12 px-3.5 focus:border-border-interactive">
+                <View
+                  className={`flex-row items-center bg-surface-container-low rounded-xl border h-12 px-3.5 ${errors.confirmPassword
+                    ? "border-danger"
+                    : "border-border focus:border-border-interactive"
+                    }`}
+                >
                   <View className="mr-3">
-                    <Lock size={20} color="#A1A1AA" />
+                    <Lock size={20} color={errors.confirmPassword ? "#ef4444" : "#A1A1AA"} />
                   </View>
                   <TextInput
                     value={confirmPassword}
-                    onChangeText={setConfirmPassword}
+                    onChangeText={(text) => {
+                      setConfirmPassword(text);
+                      clearError("confirmPassword");
+                    }}
                     placeholder="Nhập lại mật khẩu vừa đặt"
                     placeholderTextColor="#71717A"
                     secureTextEntry={!showConfirmPassword}
@@ -267,39 +340,53 @@ export default function RegisterScreen() {
                     )}
                   </Pressable>
                 </View>
+                {errors.confirmPassword ? (
+                  <Text className="text-xs text-danger font-medium mt-0.5">
+                    {errors.confirmPassword}
+                  </Text>
+                ) : null}
               </View>
 
-              {/* Terms of Service Checkbox */}
-              <Pressable
-                onPress={() => setAgreeTerms((prev) => !prev)}
-                className="flex-row items-start gap-3 py-1.5"
-              >
-                <View
-                  className={`w-5 h-5 rounded-md border items-center justify-center mt-0.5 ${agreeTerms
-                      ? "bg-primary border-primary"
-                      : "bg-surface-container-low border-border-subtle"
-                    }`}
+              <View className="gap-1.5">
+                <Pressable
+                  onPress={() => {
+                    setAgreeTerms((prev) => !prev);
+                    clearError("terms");
+                  }}
+                  className="flex-row items-start gap-3 py-1.5"
                 >
-                  {agreeTerms && (
-                    <Text className="text-primary-foreground text-xs font-black leading-none">
-                      ✓
-                    </Text>
-                  )}
-                </View>
-                <Text className="flex-1 text-xs text-on-surface-variant leading-relaxed">
-                  Tôi đồng ý với{" "}
-                  <Text className="font-semibold text-primary underline">
-                    Điều khoản dịch vụ
-                  </Text>{" "}
-                  và{" "}
-                  <Text className="font-semibold text-primary underline">
-                    Chính sách bảo mật
-                  </Text>{" "}
-                  của OpenSpend.
-                </Text>
-              </Pressable>
-
-              {/* Primary Submit Button */}
+                  <View
+                    className={`w-5 h-5 rounded-md border items-center justify-center mt-0.5 ${agreeTerms
+                      ? "bg-primary border-primary"
+                      : errors.terms
+                        ? "bg-surface-container-low border-danger"
+                        : "bg-surface-container-low border-border-subtle"
+                      }`}
+                  >
+                    {agreeTerms && (
+                      <Text className="text-primary-foreground text-xs font-black leading-none">
+                        ✓
+                      </Text>
+                    )}
+                  </View>
+                  <Text className="flex-1 text-xs text-on-surface-variant leading-relaxed">
+                    Tôi đồng ý với{" "}
+                    <Text className="font-semibold text-primary underline">
+                      Điều khoản dịch vụ
+                    </Text>{" "}
+                    và{" "}
+                    <Text className="font-semibold text-primary underline">
+                      Chính sách bảo mật
+                    </Text>{" "}
+                    của OpenSpend.
+                  </Text>
+                </Pressable>
+                {errors.terms ? (
+                  <Text className="text-xs text-danger font-medium ml-8">
+                    {errors.terms}
+                  </Text>
+                ) : null}
+              </View>
               <Button
                 onPress={handleRegister}
                 loading={loading}
