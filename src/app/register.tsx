@@ -111,8 +111,8 @@ export default function RegisterScreen() {
             {/* Top Brand Header */}
             <View className="items-center mb-7">
               <View className="flex-row items-center gap-2.5 mb-3">
-                <View className="w-9 h-9 rounded-xl bg-surface-container-high items-center justify-center border border-border shadow-sm">
-                  <OpenSpendEmblem size={22} />
+                <View className="w-10 h-10 rounded-xl bg-surface-container-high items-center justify-center border border-border shadow-sm">
+                  <OpenSpendEmblem size={26} />
                 </View>
                 <Text className="text-2xl font-bold text-primary tracking-tight">
                   OpenSpend
@@ -128,7 +128,7 @@ export default function RegisterScreen() {
             </View>
 
             {/* Registration Form Card */}
-            <View className="w-full bg-surface-container rounded-2xl p-5 border border-border gap-4.5 shadow-sm">
+            <View className="w-full bg-surface-container rounded-2xl p-5 border border-border gap-5 shadow-sm">
               {/* Field 1: Họ và tên */}
               <View className="gap-2">
                 <View className="flex-row items-center justify-between">
@@ -207,18 +207,18 @@ export default function RegisterScreen() {
                 </View>
 
                 {/* Password Strength Indicator */}
-                <View className="mt-1 gap-1.5">
+                <View className="mt-2.5 mb-1 gap-2">
                   <View className="flex-row items-center gap-1.5">
                     {[1, 2, 3, 4].map((index) => {
                       const isActive = strengthScore >= index;
                       return (
                         <View
                           key={index}
-                          className={`flex-1 h-1 rounded-full ${isActive
-                            ? strengthScore <= 2
-                              ? "bg-amber-400"
-                              : "bg-primary"
-                            : "bg-surface-container-high"
+                          className={`flex-1 h-1.5 rounded-full ${isActive
+                              ? strengthScore <= 2
+                                ? "bg-amber-400"
+                                : "bg-primary"
+                              : "bg-surface-container-high"
                             }`}
                         />
                       );
@@ -272,12 +272,12 @@ export default function RegisterScreen() {
               {/* Terms of Service Checkbox */}
               <Pressable
                 onPress={() => setAgreeTerms((prev) => !prev)}
-                className="flex-row items-start gap-2.5 py-1"
+                className="flex-row items-start gap-3 py-1.5"
               >
                 <View
                   className={`w-5 h-5 rounded-md border items-center justify-center mt-0.5 ${agreeTerms
-                    ? "bg-primary border-primary"
-                    : "bg-surface-container-low border-border-subtle"
+                      ? "bg-primary border-primary"
+                      : "bg-surface-container-low border-border-subtle"
                     }`}
                 >
                   {agreeTerms && (
@@ -315,26 +315,41 @@ export default function RegisterScreen() {
             {/* Splitter Line */}
             <View className="w-full flex-row items-center gap-4 my-6">
               <View className="flex-1 h-px bg-surface-container-high" />
-              <Text className="text-xs font-bold tracking-[2px] text-on-surface-variant">
-                HOẶC TIẾP TỤC VỚI
+              <Text className="text-xs font-bold tracking-[2.5px] text-on-surface-variant">
+                HOẶC
               </Text>
               <View className="flex-1 h-px bg-surface-container-high" />
             </View>
 
-            {/* Google Social Registration Button */}
-            <Button
-              variant="secondary"
-              onPress={handleGoogleAuth}
-              className="w-full mb-6"
-            >
-              <GoogleLogo size={20} />
-              <Text className="text-base font-medium text-primary">
-                Tiếp tục với Google
-              </Text>
-            </Button>
+            {/* Alternative Auth Actions */}
+            <View className="w-full gap-3 mb-6">
+              {/* Guest Mode Button */}
+              <Button
+                variant="secondary"
+                onPress={handleGuestMode}
+                className="w-full"
+              >
+                <Compass size={20} color="#FFFFFF" />
+                <Text className="text-base font-medium text-primary">
+                  Tiếp tục với Chế độ Khách
+                </Text>
+              </Button>
+
+              {/* Google Social Login Button */}
+              <Button
+                variant="secondary"
+                onPress={handleGoogleAuth}
+                className="w-full"
+              >
+                <GoogleLogo size={20} />
+                <Text className="text-base font-medium text-primary">
+                  Tiếp tục với Google
+                </Text>
+              </Button>
+            </View>
 
             {/* Footer Navigation Prompts */}
-            <View className="items-center gap-3">
+            <View className="items-center py-1">
               <View className="flex-row items-center gap-2">
                 <Text className="text-sm text-on-surface-variant">
                   Đã có tài khoản?
@@ -345,16 +360,6 @@ export default function RegisterScreen() {
                   </Text>
                 </Pressable>
               </View>
-
-              <Pressable
-                onPress={handleGuestMode}
-                className="flex-row items-center gap-2 py-1"
-              >
-                <Compass size={16} color="#A1A1AA" />
-                <Text className="text-sm text-on-surface-variant">
-                  Hoặc tiếp tục với Chế độ Khách
-                </Text>
-              </Pressable>
             </View>
           </View>
         </ScrollView>

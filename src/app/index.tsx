@@ -70,8 +70,8 @@ export default function LoginScreen() {
             <View className="items-center mb-7">
               {/* Horizontal Brand Lockup */}
               <View className="flex-row items-center gap-2.5 mb-3">
-                <View className="w-9 h-9 rounded-xl bg-surface-container-high items-center justify-center border border-border shadow-sm">
-                  <OpenSpendEmblem size={22} />
+                <View className="w-10 h-10 rounded-xl bg-surface-container-high items-center justify-center border border-border shadow-sm">
+                  <OpenSpendEmblem size={26} />
                 </View>
                 <Text className="text-2xl font-bold text-primary tracking-tight">
                   OpenSpend
@@ -199,7 +199,7 @@ export default function LoginScreen() {
             </View>
 
             {/* Alternative Auth Actions */}
-            <View className="w-full gap-3 mb-7">
+            <View className="w-full gap-3 mb-6">
               {/* Guest Mode Button */}
               <Button
                 variant="secondary"
@@ -220,7 +220,7 @@ export default function LoginScreen() {
               >
                 <GoogleLogo size={20} />
                 <Text className="text-base font-medium text-primary">
-                  Google
+                  Tiếp tục với Google
                 </Text>
               </Button>
             </View>
