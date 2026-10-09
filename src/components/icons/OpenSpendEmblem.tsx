@@ -1,12 +1,4 @@
-import Svg, {
- Circle,
- Defs,
- G,
- LinearGradient,
- Polygon,
- Stop,
- SvgProps,
-} from "react-native-svg";
+import Svg, { Circle, G, Polygon, SvgProps } from "react-native-svg";
 
 interface OpenSpendEmblemProps extends SvgProps {
  size?: number;
@@ -14,8 +6,8 @@ interface OpenSpendEmblemProps extends SvgProps {
 
 /**
  * Official OpenSpend Facet Precision Emblem
- * Tight bounding box: [-105, -135, 210, 270] ensures the emblem
- * completely fills the allocated space without wasted padding.
+ * ViewBox 0 0 200 260 with all positive coordinates.
+ * High-contrast solid fills ensuring crisp rendering across all native engines and web.
  */
 export function OpenSpendEmblem({
  size = 28,
@@ -25,52 +17,49 @@ export function OpenSpendEmblem({
   <Svg
    width={size}
    height={size}
-   viewBox="-105 -135 210 270"
+   viewBox="0 0 200 260"
    fill="none"
    {...props}
   >
-   <Defs>
-    <LinearGradient id="facetWhite" x1="0%" y1="0%" x2="100%" y2="100%">
-     <Stop offset="0%" stopColor="#FFFFFF" />
-     <Stop offset="100%" stopColor="#E5E1E4" />
-    </LinearGradient>
-    <LinearGradient id="facetSilver" x1="0%" y1="0%" x2="100%" y2="100%">
-     <Stop offset="0%" stopColor="#C6C6CF" />
-     <Stop offset="100%" stopColor="#8E9193" />
-    </LinearGradient>
-    <LinearGradient id="facetGraphite" x1="0%" y1="0%" x2="100%" y2="100%">
-     <Stop offset="0%" stopColor="#2F3037" />
-     <Stop offset="100%" stopColor="#1F1F23" />
-    </LinearGradient>
-   </Defs>
    <G>
+    {/* Top-Left Inflow Wing (Pure Optical White) */}
     <Polygon
-     points="0,-128 -96,-32 -32,32 0,-32"
-     fill="url(#facetWhite)"
+     points="100,2 4,98 68,162 100,98"
+     fill="#FFFFFF"
     />
+
+    {/* Top-Right Balance Facet (Titanium Silver) */}
     <Polygon
-     points="0,-128 96,-32 32,32 0,-32"
-     fill="url(#facetSilver)"
+     points="100,2 196,98 132,162 100,98"
+     fill="#C6C6CF"
     />
+
+    {/* Bottom-Left Anchor Facet (Graphite Shadow) */}
     <Polygon
-     points="-96,-32 0,128 0,64 -32,32"
-     fill="url(#facetGraphite)"
+     points="4,98 100,258 100,194 68,162"
+     fill="#2F3037"
      stroke="#3F3F46"
      strokeWidth={2}
     />
+
+    {/* Bottom-Right Outflow Wing (Surgically Chiseled Silver) */}
     <Polygon
-     points="96,-32 0,128 0,64 32,32"
-     fill="url(#facetSilver)"
+     points="196,98 100,258 100,194 132,162"
+     fill="#8E9193"
      stroke="#27272A"
      strokeWidth={2}
     />
+
+    {/* Inner Floating Precision Core (Diamond Horizon) */}
     <Polygon
-     points="0,-32 32,32 0,64 -32,32"
+     points="100,98 132,162 100,194 68,162"
      fill="#121214"
      stroke="#3F3F46"
      strokeWidth={3}
     />
-    <Circle cx={0} cy={16} r={7} fill="#FFFFFF" />
+
+    {/* Micro Precision Indicator (Optical White Center Dot) */}
+    <Circle cx={100} cy={146} r={8} fill="#FFFFFF" />
    </G>
   </Svg>
  );
