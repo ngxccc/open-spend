@@ -3,12 +3,60 @@ name: Build Android APK
 on:
   workflow_dispatch:
   push:
-    tags:
-      - 'v*'
+    branches:
+      - main
+
+permissions:
+  contents: write
 
 jobs:
+  check-version:
+    name: Check version and tag
+    runs-on: ubuntu-latest
+    outputs:
+      should_build: ${{ steps.version_check.outputs.should_build }}
+      is_new_version: ${{ steps.version_check.outputs.is_new_version }}
+      tag: ${{ steps.version_check.outputs.tag }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Check package.json version
+        id: version_check
+        run: |
+          VERSION=$(jq -r .version package.json)
+          TAG="v$VERSION"
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+
+          git fetch --tags
+          if git rev-parse "$TAG" >/dev/null 2>&1; then
+            echo "Tag $TAG already exists."
+            echo "is_new_version=false" >> "$GITHUB_OUTPUT"
+            if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+              echo "Manual trigger: proceeding to build."
+              echo "should_build=true" >> "$GITHUB_OUTPUT"
+            else
+              echo "No new version: skipping build."
+              echo "should_build=false" >> "$GITHUB_OUTPUT"
+            fi
+          else
+            echo "New version detected: $TAG"
+            echo "is_new_version=true" >> "$GITHUB_OUTPUT"
+            echo "should_build=true" >> "$GITHUB_OUTPUT"
+
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git tag "$TAG"
+            git push origin "$TAG"
+          fi
+
   build:
     name: Build Android APK
+    needs: check-version
+    if: needs.check-version.outputs.should_build == 'true'
     runs-on: ubuntu-latest
 
     steps:
@@ -47,6 +95,16 @@ jobs:
       - name: Upload APK artifact
         uses: actions/upload-artifact@v7
         with:
-          name: open-spend-release
+          name: open-spend-${{ needs.check-version.outputs.tag || 'apk' }}
           path: android/app/build/outputs/apk/release/*.apk
           retention-days: 14
+
+      - name: Create GitHub Release
+        if: needs.check-version.outputs.is_new_version == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TAG="${{ needs.check-version.outputs.tag }}"
+          gh release create "$TAG" android/app/build/outputs/apk/release/*.apk \
+            --title "OpenSpend $TAG" \
+            --generate-notes
