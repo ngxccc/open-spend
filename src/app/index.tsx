@@ -122,8 +122,8 @@ export default function LoginScreen() {
                 </Text>
                 <View
                   className={`flex-row items-center bg-surface-container-low rounded-xl border h-12 px-3.5 ${errors.identifier
-                      ? "border-danger"
-                      : "border-border focus:border-border-interactive"
+                    ? "border-danger"
+                    : "border-border focus:border-border-interactive"
                     }`}
                 >
                   <View className="mr-3">
@@ -135,7 +135,7 @@ export default function LoginScreen() {
                       setIdentifier(text);
                       clearError("identifier");
                     }}
-                    placeholder="name@openfinance.vn"
+                    placeholder="name@openspend.vn"
                     placeholderTextColor="#71717A"
                     className="flex-1 text-base text-primary h-full"
                     autoCapitalize="none"
@@ -156,8 +156,8 @@ export default function LoginScreen() {
                 </Text>
                 <View
                   className={`flex-row items-center bg-surface-container-low rounded-xl border h-12 px-3.5 ${errors.password
-                      ? "border-danger"
-                      : "border-border focus:border-border-interactive"
+                    ? "border-danger"
+                    : "border-border focus:border-border-interactive"
                     }`}
                 >
                   <View className="mr-3">

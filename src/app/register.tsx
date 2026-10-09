@@ -214,7 +214,7 @@ export default function RegisterScreen() {
                       setEmail(text);
                       clearError("email");
                     }}
-                    placeholder="name@openfinance.vn"
+                    placeholder="name@openspend.vn"
                     placeholderTextColor="#71717A"
                     className="flex-1 text-base text-primary h-full"
                     autoCapitalize="none"
