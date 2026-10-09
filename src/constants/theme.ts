@@ -1,26 +1,55 @@
+import { Platform } from 'react-native';
+
 /**
- * Below are the colors that are used in the app. The colors are defined in the light and dark mode.
- * There are many other ways to style your app. For example, [Nativewind](https://www.nativewind.dev/), [Tamagui](https://tamagui.dev/), [unistyles](https://reactnativeunistyles.vercel.app), etc.
+ * OpenSpend - Obsidian Slate Theme Tokens
+ * Generated strictly from DESIGN.md
  */
 
-import '@/global.css';
+export const SlateColors = {
+  // Base Canvas & Surface Tiers
+  surface: '#131315',
+  surfaceDim: '#131315',
+  surfaceBright: '#39393b',
+  surfaceLowest: '#0e0e10',
+  surfaceLow: '#1b1b1d',
+  surfaceContainer: '#201f21',
+  surfaceHigh: '#2a2a2c',
+  surfaceHighest: '#353437',
 
-import { Platform } from 'react-native';
+  // Typography & Content
+  primary: '#ffffff',
+  onPrimary: '#121214',
+  secondary: '#c6c6cf',
+  onSurface: '#e5e1e4',
+  onSurfaceVariant: '#c4c7c9',
+  muted: '#8e9193',
+  subtle: '#71717a',
+
+  // Borders & Dividers
+  outline: '#8e9193',
+  outlineVariant: '#444749',
+  border: '#27272a',
+  borderInteractive: '#3f3f46',
+
+  // Status & Feedback
+  error: '#ffb4ab',
+  success: '#34d399',
+} as const;
 
 export const Colors = {
   light: {
-    text: '#000000',
-    background: '#ffffff',
-    backgroundElement: '#F0F0F3',
-    backgroundSelected: '#E0E1E6',
-    textSecondary: '#60646C',
+    text: SlateColors.primary,
+    background: SlateColors.surface,
+    backgroundElement: SlateColors.surfaceLow,
+    backgroundSelected: SlateColors.surfaceContainer,
+    textSecondary: SlateColors.onSurfaceVariant,
   },
   dark: {
-    text: '#ffffff',
-    background: '#000000',
-    backgroundElement: '#212225',
-    backgroundSelected: '#2E3135',
-    textSecondary: '#B0B4BA',
+    text: SlateColors.primary,
+    background: SlateColors.surface,
+    backgroundElement: SlateColors.surfaceLow,
+    backgroundSelected: SlateColors.surfaceContainer,
+    textSecondary: SlateColors.onSurfaceVariant,
   },
 } as const;
 
@@ -28,13 +57,9 @@ export type ThemeColor = keyof typeof Colors.light & keyof typeof Colors.dark;
 
 export const Fonts = Platform.select({
   ios: {
-    /** iOS `UIFontDescriptorSystemDesignDefault` */
     sans: 'system-ui',
-    /** iOS `UIFontDescriptorSystemDesignSerif` */
     serif: 'ui-serif',
-    /** iOS `UIFontDescriptorSystemDesignRounded` */
     rounded: 'ui-rounded',
-    /** iOS `UIFontDescriptorSystemDesignMonospaced` */
     mono: 'ui-monospace',
   },
   default: {
@@ -49,17 +74,26 @@ export const Fonts = Platform.select({
     rounded: 'var(--font-rounded)',
     mono: 'var(--font-mono)',
   },
-});
+}) ?? {
+  sans: 'normal',
+  serif: 'serif',
+  rounded: 'normal',
+  mono: 'monospace',
+};
 
 export const Spacing = {
-  half: 2,
-  one: 4,
-  two: 8,
-  three: 16,
-  four: 24,
-  five: 32,
-  six: 64,
+  xs: 4,
+  sm: 8,
+  md: 16,
+  lg: 24,
+  xl: 32,
+  xxl: 40,
 } as const;
 
-export const BottomTabInset = Platform.select({ ios: 50, android: 80 }) ?? 0;
-export const MaxContentWidth = 800;
+export const BorderRadius = {
+  sm: 4,
+  md: 8,
+  lg: 12,
+  xl: 16,
+  full: 9999,
+} as const;

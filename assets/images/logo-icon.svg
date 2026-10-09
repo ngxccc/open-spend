@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <!-- Background Gradient: Subtle Tonal Falloff -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1A1A1E"/>
+      <stop offset="100%" stop-color="#121214"/>
+    </linearGradient>
+
+    <!-- Titanium Sheen on Primary Facet -->
+    <linearGradient id="facetWhite" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#E5E1E4"/>
+    </linearGradient>
+
+    <!-- Brushed Slate on Secondary Facet -->
+    <linearGradient id="facetSilver" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#C6C6CF"/>
+      <stop offset="100%" stop-color="#8E9193"/>
+    </linearGradient>
+
+    <!-- Deep Graphite on Shadow Facet -->
+    <linearGradient id="facetGraphite" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2F3037"/>
+      <stop offset="100%" stop-color="#1F1F23"/>
+    </linearGradient>
+  </defs>
+
+  <!-- App Icon Squircle Container with Precision Hairline Rim -->
+  <rect x="16" y="16" width="480" height="480" rx="108" fill="url(#bgGrad)"/>
+  <rect x="16" y="16" width="480" height="480" rx="108" fill="none" stroke="#27272A" stroke-width="2"/>
+
+  <!-- Subtle Geometric Grid Lines (Surgical Precision) -->
+  <line x1="256" y1="96" x2="256" y2="416" stroke="#27272A" stroke-width="1" stroke-dasharray="4 6"/>
+  <line x1="96" y1="256" x2="416" y2="256" stroke="#27272A" stroke-width="1" stroke-dasharray="4 6"/>
+
+  <!-- CENTRAL EMBLEM: Interlocking Faceted Aperture & Balance Diamond -->
+  <g transform="translate(256, 256)">
+    <!-- Top-Left Inflow Wing (Pure Optical White) -->
+    <polygon points="0,-128 -96,-32 -32,32 0,-32" fill="url(#facetWhite)"/>
+    
+    <!-- Top-Right Balance Facet -->
+    <polygon points="0,-128 96,-32 32,32 0,-32" fill="url(#facetSilver)"/>
+
+    <!-- Bottom-Left Anchor Facet -->
+    <polygon points="-96,-32 0,128 0,64 -32,32" fill="url(#facetGraphite)" stroke="#3F3F46" stroke-width="1"/>
+
+    <!-- Bottom-Right Outflow Wing (Surgically Chiseled) -->
+    <polygon points="96,-32 0,128 0,64 32,32" fill="url(#facetSilver)" stroke="#27272A" stroke-width="1"/>
+
+    <!-- Inner Floating Precision Core (Diamond Horizon) -->
+    <polygon points="0,-32 32,32 0,64 -32,32" fill="#121214" stroke="#3F3F46" stroke-width="1.5"/>
+
+    <!-- Micro Precision Indicator (Optical White Center Dot) -->
+    <circle cx="0" cy="16" r="4" fill="#FFFFFF"/>
+  </g>
+</svg>

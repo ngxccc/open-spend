@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 180" width="680" height="180">
+  <defs>
+    <!-- Titanium Sheen on Primary Facet -->
+    <linearGradient id="logoFacetWhite" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#E5E1E4"/>
+    </linearGradient>
+
+    <!-- Brushed Slate on Secondary Facet -->
+    <linearGradient id="logoFacetSilver" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#C6C6CF"/>
+      <stop offset="100%" stop-color="#8E9193"/>
+    </linearGradient>
+
+    <!-- Deep Graphite on Shadow Facet -->
+    <linearGradient id="logoFacetGraphite" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2F3037"/>
+      <stop offset="100%" stop-color="#1F1F23"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background Matte Canvas -->
+  <rect width="680" height="180" rx="16" fill="#121214"/>
+  <rect width="680" height="180" rx="16" fill="none" stroke="#27272A" stroke-width="1.5"/>
+
+  <!-- EMBLEM ICON (Left Aligned) -->
+  <g transform="translate(110, 90) scale(0.65)">
+    <!-- Top-Left Inflow Wing (Pure Optical White) -->
+    <polygon points="0,-128 -96,-32 -32,32 0,-32" fill="url(#logoFacetWhite)"/>
+    
+    <!-- Top-Right Balance Facet -->
+    <polygon points="0,-128 96,-32 32,32 0,-32" fill="url(#logoFacetSilver)"/>
+
+    <!-- Bottom-Left Anchor Facet -->
+    <polygon points="-96,-32 0,128 0,64 -32,32" fill="url(#logoFacetGraphite)" stroke="#3F3F46" stroke-width="1"/>
+
+    <!-- Bottom-Right Outflow Wing (Surgically Chiseled) -->
+    <polygon points="96,-32 0,128 0,64 32,32" fill="url(#logoFacetSilver)" stroke="#27272A" stroke-width="1"/>
+
+    <!-- Inner Floating Precision Core (Diamond Horizon) -->
+    <polygon points="0,-32 32,32 0,64 -32,32" fill="#121214" stroke="#3F3F46" stroke-width="1.5"/>
+
+    <!-- Micro Precision Indicator (Optical White Center Dot) -->
+    <circle cx="0" cy="16" r="4" fill="#FFFFFF"/>
+  </g>
+
+  <!-- Hairline Divider -->
+  <line x1="200" y1="46" x2="200" y2="134" stroke="#27272A" stroke-width="1.5"/>
+
+  <!-- TYPOGRAPHY WORDMARK -->
+  <g transform="translate(232, 88)">
+    <!-- Brand Title -->
+    <text font-family="'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" font-size="34" font-weight="700" letter-spacing="0.08em" y="0">
+      <tspan fill="#FFFFFF">OPEN</tspan><tspan fill="#8E9193" font-weight="400">SPEND</tspan>
+    </text>
+
+    <!-- Subtitle / Architecture Descriptor -->
+    <text font-family="'Inter', system-ui, -apple-system, sans-serif" font-size="11" font-weight="600" fill="#71717A" letter-spacing="0.28em" y="28">
+      PRECISION LEDGER ENGINE
+    </text>
+  </g>
+</svg>
