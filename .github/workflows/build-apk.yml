@@ -101,10 +101,15 @@ jobs:
 
       - name: Create GitHub Release
         if: needs.check-version.outputs.is_new_version == 'true'
+        working-directory: android/app/build/outputs/apk/release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           TAG="${{ needs.check-version.outputs.tag }}"
-          gh release create "$TAG" android/app/build/outputs/apk/release/*.apk \
+          mv app-release.apk "openspend-${TAG}.apk" || true
+          sha256sum "openspend-${TAG}.apk" > SHA256SUMS.txt
+          gh release create "$TAG" \
+            "openspend-${TAG}.apk" \
+            SHA256SUMS.txt \
             --title "OpenSpend $TAG" \
             --generate-notes

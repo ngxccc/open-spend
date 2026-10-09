@@ -1,0 +1,25 @@
+changelog:
+  exclude:
+    labels:
+      - 'ignore'
+    authors:
+      - 'dependabot[bot]'
+  categories:
+    - title: 'Added'
+      labels:
+        - 'enhancement'
+        - 'feature'
+        - 'feat'
+    - title: 'Fixed'
+      labels:
+        - 'bug'
+        - 'fix'
+    - title: 'Changed'
+      labels:
+        - 'changed'
+        - 'refactor'
+    - title: 'Maintenance'
+      labels:
+        - 'chore'
+        - 'ci'
+        - 'dependencies'
