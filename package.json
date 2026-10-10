@@ -62,6 +62,6 @@
     "oxlint-config-presets": "^0.1.20",
     "oxlint-tsgolint": "^7.0.2003",
     "postcss": "^8.5.29",
-    "typescript": "~6.0.3"
+    "typescript": "~7.0.2"
   }
 }
