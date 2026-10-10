@@ -17,5 +17,5 @@ jobs:
       - name: Setup Environment
         uses: ./.github/setup-environment
 
-      - name: Quality Check (Format, Lint & Type-Check)
+      - name: Quality Check
         run: bun run check
