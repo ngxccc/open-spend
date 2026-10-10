@@ -115,7 +115,7 @@ export default function RegisterScreen() {
       setLoading(false);
       triggerToast("Đăng ký tài khoản thành công!", "success");
       setTimeout(() => {
-        router.push("/");
+        router.replace("/");
       }, 1200);
     }, 900);
   };
