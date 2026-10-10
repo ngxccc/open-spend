@@ -1,7 +1,7 @@
 name: "Auto PR Labeler"
 
 on:
-  pull_request_target:
+  pull_request:
     types: [opened, synchronize, reopened, edited]
 
 permissions:
@@ -16,7 +16,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7
 
-      - name: "Apply Area and Type Labels based on Changed Files"
+      - name: "Apply Area Labels based on Changed Files"
         uses: actions/labeler@v7
         with:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
