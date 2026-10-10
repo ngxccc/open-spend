@@ -1,130 +1,130 @@
 ---
 name: Obsidian Slate
 colors:
-  surface: '#131315'
-  surface-dim: '#131315'
-  surface-bright: '#39393b'
-  surface-container-lowest: '#0e0e10'
-  surface-container-low: '#1b1b1d'
-  surface-container: '#201f21'
-  surface-container-high: '#2a2a2c'
-  surface-container-highest: '#353437'
-  on-surface: '#e5e1e4'
-  on-surface-variant: '#c4c7c9'
-  inverse-surface: '#e5e1e4'
-  inverse-on-surface: '#303032'
-  outline: '#8e9193'
-  outline-variant: '#444749'
-  surface-tint: '#c6c6c7'
-  primary: '#ffffff'
-  on-primary: '#2f3132'
-  primary-container: '#e2e2e3'
-  on-primary-container: '#636466'
-  inverse-primary: '#5d5e60'
-  secondary: '#c6c6cf'
-  on-secondary: '#2f3037'
-  secondary-container: '#45464e'
-  on-secondary-container: '#b4b4bd'
-  tertiary: '#ffffff'
-  on-tertiary: '#352f2d'
-  tertiary-container: '#ebe0dc'
-  on-tertiary-container: '#6a6360'
-  error: '#ffb4ab'
-  on-error: '#690005'
-  error-container: '#93000a'
-  on-error-container: '#ffdad6'
-  primary-fixed: '#e2e2e3'
-  primary-fixed-dim: '#c6c6c7'
-  on-primary-fixed: '#1a1c1d'
-  on-primary-fixed-variant: '#454748'
-  secondary-fixed: '#e2e1eb'
-  secondary-fixed-dim: '#c6c6cf'
-  on-secondary-fixed: '#1a1b22'
-  on-secondary-fixed-variant: '#45464e'
-  tertiary-fixed: '#ebe0dc'
-  tertiary-fixed-dim: '#cec4c1'
-  on-tertiary-fixed: '#1f1b18'
-  on-tertiary-fixed-variant: '#4c4543'
-  background: '#131315'
-  on-background: '#e5e1e4'
-  surface-variant: '#353437'
+  surface: "#131315"
+  surface-dim: "#131315"
+  surface-bright: "#39393b"
+  surface-container-lowest: "#0e0e10"
+  surface-container-low: "#1b1b1d"
+  surface-container: "#201f21"
+  surface-container-high: "#2a2a2c"
+  surface-container-highest: "#353437"
+  on-surface: "#e5e1e4"
+  on-surface-variant: "#c4c7c9"
+  inverse-surface: "#e5e1e4"
+  inverse-on-surface: "#303032"
+  outline: "#8e9193"
+  outline-variant: "#444749"
+  surface-tint: "#c6c6c7"
+  primary: "#ffffff"
+  on-primary: "#2f3132"
+  primary-container: "#e2e2e3"
+  on-primary-container: "#636466"
+  inverse-primary: "#5d5e60"
+  secondary: "#c6c6cf"
+  on-secondary: "#2f3037"
+  secondary-container: "#45464e"
+  on-secondary-container: "#b4b4bd"
+  tertiary: "#ffffff"
+  on-tertiary: "#352f2d"
+  tertiary-container: "#ebe0dc"
+  on-tertiary-container: "#6a6360"
+  error: "#ffb4ab"
+  on-error: "#690005"
+  error-container: "#93000a"
+  on-error-container: "#ffdad6"
+  primary-fixed: "#e2e2e3"
+  primary-fixed-dim: "#c6c6c7"
+  on-primary-fixed: "#1a1c1d"
+  on-primary-fixed-variant: "#454748"
+  secondary-fixed: "#e2e1eb"
+  secondary-fixed-dim: "#c6c6cf"
+  on-secondary-fixed: "#1a1b22"
+  on-secondary-fixed-variant: "#45464e"
+  tertiary-fixed: "#ebe0dc"
+  tertiary-fixed-dim: "#cec4c1"
+  on-tertiary-fixed: "#1f1b18"
+  on-tertiary-fixed-variant: "#4c4543"
+  background: "#131315"
+  on-background: "#e5e1e4"
+  surface-variant: "#353437"
 typography:
   display:
     fontFamily: Plus Jakarta Sans
     fontSize: 48px
-    fontWeight: '600'
+    fontWeight: "600"
     lineHeight: 56px
     letterSpacing: -0.03em
   display-mobile:
     fontFamily: Plus Jakarta Sans
     fontSize: 32px
-    fontWeight: '600'
+    fontWeight: "600"
     lineHeight: 40px
     letterSpacing: -0.02em
   headline-lg:
     fontFamily: Plus Jakarta Sans
     fontSize: 32px
-    fontWeight: '600'
+    fontWeight: "600"
     lineHeight: 40px
     letterSpacing: -0.02em
   headline-lg-mobile:
     fontFamily: Plus Jakarta Sans
     fontSize: 24px
-    fontWeight: '600'
+    fontWeight: "600"
     lineHeight: 32px
     letterSpacing: -0.01em
   headline-md:
     fontFamily: Plus Jakarta Sans
     fontSize: 24px
-    fontWeight: '600'
+    fontWeight: "600"
     lineHeight: 32px
     letterSpacing: -0.015em
   headline-sm:
     fontFamily: Plus Jakarta Sans
     fontSize: 20px
-    fontWeight: '500'
+    fontWeight: "500"
     lineHeight: 28px
     letterSpacing: -0.01em
   title:
     fontFamily: Inter
     fontSize: 16px
-    fontWeight: '600'
+    fontWeight: "600"
     lineHeight: 24px
     letterSpacing: -0.005em
   body-lg:
     fontFamily: Inter
     fontSize: 16px
-    fontWeight: '400'
+    fontWeight: "400"
     lineHeight: 24px
     letterSpacing: 0em
   body-md:
     fontFamily: Inter
     fontSize: 14px
-    fontWeight: '400'
+    fontWeight: "400"
     lineHeight: 20px
     letterSpacing: 0em
   body-sm:
     fontFamily: Inter
     fontSize: 12px
-    fontWeight: '400'
+    fontWeight: "400"
     lineHeight: 16px
     letterSpacing: 0.01em
   label-md:
     fontFamily: Inter
     fontSize: 13px
-    fontWeight: '500'
+    fontWeight: "500"
     lineHeight: 18px
     letterSpacing: 0.01em
   label-sm:
     fontFamily: Inter
     fontSize: 11px
-    fontWeight: '500'
+    fontWeight: "500"
     lineHeight: 14px
     letterSpacing: 0.02em
   mono-metric:
     fontFamily: Inter
     fontSize: 14px
-    fontWeight: '500'
+    fontWeight: "500"
     lineHeight: 20px
     letterSpacing: -0.01em
 rounded:
