@@ -1,25 +1,40 @@
 changelog:
   exclude:
     labels:
-      - 'ignore'
+      - "ignore"
+      - "type:chore"
+      - "wontfix"
     authors:
-      - 'dependabot[bot]'
+      - "dependabot[bot]"
   categories:
-    - title: 'Added'
+    - title: "Features"
       labels:
-        - 'enhancement'
-        - 'feature'
-        - 'feat'
-    - title: 'Fixed'
+        - "type:feat"
+        - "enhancement"
+        - "feature"
+        - "feat"
+    - title: "Bug Fixes"
       labels:
-        - 'bug'
-        - 'fix'
-    - title: 'Changed'
+        - "type:fix"
+        - "bug"
+        - "fix"
+    - title: "Performance"
       labels:
-        - 'changed'
-        - 'refactor'
-    - title: 'Maintenance'
+        - "type:perf"
+    - title: "Refactoring"
       labels:
-        - 'chore'
-        - 'ci'
-        - 'dependencies'
+        - "type:refactor"
+        - "changed"
+    - title: "Testing"
+      labels:
+        - "type:test"
+    - title: "Documentation"
+      labels:
+        - "type:docs"
+        - "documentation"
+    - title: "Maintenance & CI"
+      labels:
+        - "type:ci"
+        - "type:style"
+        - "ci"
+        - "dependencies"
