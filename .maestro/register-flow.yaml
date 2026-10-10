@@ -1,0 +1,18 @@
+appId: com.openspend.app
+---
+- launchApp
+- tapOn: "Tạo tài khoản mới"
+- assertVisible: "Tạo tài khoản"
+
+# Submit empty form to trigger validation errors
+- tapOn:
+    text: "Tạo tài khoản"
+    index: 1
+- assertVisible: "Vui lòng nhập họ và tên"
+- assertVisible: "Vui lòng nhập địa chỉ email"
+- assertVisible: "Vui lòng nhập mật khẩu"
+- assertVisible: "Vui lòng đồng ý với điều khoản dịch vụ để tiếp tục"
+
+# Return to login
+- tapOn: "Đăng nhập ngay"
+- assertVisible: "Chào mừng trở lại"
