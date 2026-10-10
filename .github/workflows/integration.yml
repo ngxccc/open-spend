@@ -1,0 +1,21 @@
+name: Code Quality, Lint & Type-Check
+
+on:
+  workflow_call:
+
+jobs:
+  quality:
+    name: "Lint & Type-Check"
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Environment
+        uses: ./.github/setup-environment
+
+      - name: Quality Check (Format, Lint & Type-Check)
+        run: bun run check

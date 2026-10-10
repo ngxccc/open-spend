@@ -1,0 +1,99 @@
+# .github/labeler.yml - Automatic PR labeling based on modified file paths (v5 schema)
+
+# ── Area Labels (Domain & Architecture) ──
+"area:auth":
+  - changed-files:
+      - any-glob-to-any-file:
+          - "src/app/index.tsx"
+          - "src/app/register.tsx"
+          - "src/**/auth*/**"
+
+"area:wallet":
+  - changed-files:
+      - any-glob-to-any-file:
+          - "src/**/wallet*/**"
+          - "src/components/icons/WalletEmblem.tsx"
+
+"area:expense":
+  - changed-files:
+      - any-glob-to-any-file:
+          - "src/**/expense*/**"
+
+"area:income":
+  - changed-files:
+      - any-glob-to-any-file:
+          - "src/**/income*/**"
+
+"area:category":
+  - changed-files:
+      - any-glob-to-any-file:
+          - "src/**/categor*/**"
+
+"area:ui":
+  - changed-files:
+      - any-glob-to-any-file:
+          - "src/components/**/*"
+          - "src/constants/**/*"
+          - "src/global.css"
+          - "tailwind.config.js"
+
+"area:app":
+  - changed-files:
+      - any-glob-to-any-file:
+          - "src/app/**/*"
+          - "app.json"
+          - "app.config.ts"
+          - "metro.config.js"
+          - "babel.config.js"
+
+"area:ci":
+  - changed-files:
+      - any-glob-to-any-file:
+          - ".github/**/*"
+          - "eas.json"
+
+"area:e2e":
+  - changed-files:
+      - any-glob-to-any-file:
+          - ".maestro/**/*"
+
+"area:harness":
+  - changed-files:
+      - any-glob-to-any-file:
+          - ".claude/**/*"
+          - ".omp/**/*"
+          - "AGENTS.md"
+          - "CLAUDE.md"
+          - "CONTEXT.md"
+          - "docs/standards/**/*"
+
+# ── Type Labels ──
+"type:docs":
+  - changed-files:
+      - any-glob-to-any-file:
+          - "docs/**/*"
+          - "**/*.md"
+
+"type:test":
+  - changed-files:
+      - any-glob-to-any-file:
+          - ".maestro/**/*"
+          - "**/*.test.*"
+          - "**/*.spec.*"
+
+"type:ci":
+  - changed-files:
+      - any-glob-to-any-file:
+          - ".github/workflows/**/*"
+          - ".github/setup-*/**/*"
+          - ".github/cache/**/*"
+          - "eas.json"
+
+"type:chore":
+  - changed-files:
+      - any-glob-to-any-file:
+          - "package.json"
+          - "bun.lock"
+          - ".husky/**/*"
+          - ".lintstagedrc.json"
+          - ".oxlintrc.json"

@@ -1,0 +1,59 @@
+name: "Auto PR Labeler"
+
+on:
+  pull_request_target:
+    types: [opened, synchronize, reopened, edited]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  labeler:
+    name: "Apply Labels based on Files & Title"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: "Apply Area and Type Labels based on Changed Files"
+        uses: actions/labeler@v7
+        with:
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
+          configuration-path: ".github/labeler.yml"
+          sync-labels: false
+
+      - name: "Apply Type Label from PR Title (Conventional Commits)"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          PR_TITLE: ${{ github.event.pull_request.title }}
+        run: |
+          TYPE=$(echo "$PR_TITLE" | sed -E 's/^([a-z]+)(\(.*\))?:.*/\1/')
+          case "$TYPE" in
+            feat)
+              LABEL="type:feat" ;;
+            fix)
+              LABEL="type:fix" ;;
+            refactor)
+              LABEL="type:refactor" ;;
+            perf)
+              LABEL="type:perf" ;;
+            test)
+              LABEL="type:test" ;;
+            docs)
+              LABEL="type:docs" ;;
+            chore)
+              LABEL="type:chore" ;;
+            ci)
+              LABEL="type:ci" ;;
+            style)
+              LABEL="type:style" ;;
+            *)
+              LABEL="" ;;
+          esac
+
+          if [ -n "$LABEL" ]; then
+            echo "Applying label $LABEL from title to PR #$PR_NUMBER..."
+            gh pr edit "$PR_NUMBER" --add-label "$LABEL"
+          fi
