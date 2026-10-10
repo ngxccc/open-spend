@@ -283,7 +283,7 @@ export default function LoginScreen() {
                 <Text className="text-sm text-on-surface-variant">
                   Chưa có tài khoản?
                 </Text>
-                <Pressable onPress={() => router.push("/register")}>
+                <Pressable onPress={() => router.replace("/register")}>
                   <Text className="text-sm font-bold text-primary underline">
                     Tạo tài khoản mới
                   </Text>

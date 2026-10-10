@@ -9,6 +9,8 @@ export default function RootLayout() {
       <Stack
         screenOptions={{
           headerShown: false,
+          animation: 'none',
+          contentStyle: { backgroundColor: '#131315' },
         }}
       />
       <PortalHost />

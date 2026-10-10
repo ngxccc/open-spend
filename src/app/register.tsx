@@ -441,7 +441,7 @@ export default function RegisterScreen() {
                 <Text className="text-sm text-on-surface-variant">
                   Đã có tài khoản?
                 </Text>
-                <Pressable onPress={() => router.push("/")}>
+                <Pressable onPress={() => router.replace("/")}>
                   <Text className="text-sm font-bold text-primary underline">
                     Đăng nhập ngay
                   </Text>
