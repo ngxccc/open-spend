@@ -39,3 +39,17 @@ Docs: https://docs.expo.dev/eas/index.md
 - If `ios/` and `android/` directories do not exist, they are generated (Continuous Native Generation). Never create or edit them by hand — configure native behavior in `app.json` and config plugins.
 - Expo Go only includes its bundled native modules. After adding a library with native code, the app needs a development build: `npx expo run:ios|android` locally, or `eas build --profile development`.
 - Prefer recommended Expo modules over third-party libraries, and check your available skills before adding dependencies. Docs: https://docs.expo.dev/versions/latest/index.md
+
+## Engineering Standards
+
+MUST read the corresponding standard file under `docs/standards/` before modifying related code or tests:
+
+- **Issue tracking & tickets** → `docs/standards/issue-tracker.md`
+- **Domain glossary & ADRs** → `docs/standards/domain-docs.md`
+- **Comments & docstrings** → `docs/standards/code-comment-taxonomy.md`
+- **Routes, DTOs, and error responses** → `docs/standards/api-design-and-error-handling.md`
+- **Schemas, queries, and migrations** → `docs/standards/database-and-migrations.md`
+- **Locks, race conditions, and transactions** → `docs/standards/concurrency-and-locking.md`
+- **Tests, factories, and fixtures** → `docs/standards/testing-and-fixtures.md`
+- **Auth, hashing, and sanitization** → `docs/standards/security-and-cryptography.md`
+- **Branches, commits, and PRs** → `docs/standards/git-flow-and-pr-matrix.md`
