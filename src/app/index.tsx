@@ -4,22 +4,14 @@ import {
   Platform,
   Pressable,
   ScrollView,
-  Text,
   TextInput,
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { router } from "expo-router";
-import { Button, Toast } from "@/components/ui";
+import { Button, Text, Toast } from "@/components/ui";
 import { GoogleLogo, OpenSpendEmblem } from "@/components/icons";
-import {
-  ArrowRight,
-  Compass,
-  Eye,
-  EyeOff,
-  Lock,
-  Mail,
-} from "lucide-react-native";
+import { ArrowRight, Compass, Eye, EyeOff, Lock, Mail } from "lucide-react-native";
 interface LoginErrors {
   identifier?: string;
   password?: string;
@@ -99,9 +91,7 @@ export default function LoginScreen() {
                 <View className="w-10 h-10 rounded-xl bg-surface-container-high items-center justify-center border border-border shadow-sm">
                   <OpenSpendEmblem size={26} />
                 </View>
-                <Text className="text-2xl font-bold text-primary tracking-tight">
-                  OpenSpend
-                </Text>
+                <Text className="text-2xl font-bold text-primary tracking-tight">OpenSpend</Text>
               </View>
 
               {/* Screen Title */}
@@ -117,14 +107,13 @@ export default function LoginScreen() {
             <View className="w-full bg-surface-container rounded-2xl p-5 border border-border gap-5 shadow-sm">
               {/* Input: Identifier */}
               <View className="gap-2">
-                <Text className="text-sm font-semibold text-on-surface">
-                  Email
-                </Text>
+                <Text className="text-sm font-semibold text-on-surface">Email</Text>
                 <View
-                  className={`flex-row items-center bg-surface-container-low rounded-xl border h-12 px-3.5 ${errors.identifier
-                    ? "border-danger"
-                    : "border-border focus:border-border-interactive"
-                    }`}
+                  className={`flex-row items-center bg-surface-container-low rounded-xl border h-12 px-3.5 ${
+                    errors.identifier
+                      ? "border-danger"
+                      : "border-border focus:border-border-interactive"
+                  }`}
                 >
                   <View className="mr-3">
                     <Mail size={20} color={errors.identifier ? "#ef4444" : "#A1A1AA"} />
@@ -151,14 +140,13 @@ export default function LoginScreen() {
 
               {/* Input: Password */}
               <View className="gap-2">
-                <Text className="text-sm font-semibold text-on-surface">
-                  Mật khẩu
-                </Text>
+                <Text className="text-sm font-semibold text-on-surface">Mật khẩu</Text>
                 <View
-                  className={`flex-row items-center bg-surface-container-low rounded-xl border h-12 px-3.5 ${errors.password
-                    ? "border-danger"
-                    : "border-border focus:border-border-interactive"
-                    }`}
+                  className={`flex-row items-center bg-surface-container-low rounded-xl border h-12 px-3.5 ${
+                    errors.password
+                      ? "border-danger"
+                      : "border-border focus:border-border-interactive"
+                  }`}
                 >
                   <View className="mr-3">
                     <Lock size={20} color={errors.password ? "#ef4444" : "#A1A1AA"} />
@@ -188,9 +176,7 @@ export default function LoginScreen() {
                   </Pressable>
                 </View>
                 {errors.password ? (
-                  <Text className="text-xs text-danger font-medium mt-0.5">
-                    {errors.password}
-                  </Text>
+                  <Text className="text-xs text-danger font-medium mt-0.5">{errors.password}</Text>
                 ) : null}
               </View>
 
@@ -201,10 +187,11 @@ export default function LoginScreen() {
                   className="flex-row items-center gap-2.5"
                 >
                   <View
-                    className={`w-5 h-5 rounded-md border items-center justify-center ${rememberMe
-                      ? "bg-primary border-primary"
-                      : "bg-surface-container-low border-border-subtle"
-                      }`}
+                    className={`w-5 h-5 rounded-md border items-center justify-center ${
+                      rememberMe
+                        ? "bg-primary border-primary"
+                        : "bg-surface-container-low border-border-subtle"
+                    }`}
                   >
                     {rememberMe && (
                       <Text className="text-primary-foreground text-xs font-black leading-none">
@@ -212,16 +199,10 @@ export default function LoginScreen() {
                       </Text>
                     )}
                   </View>
-                  <Text className="text-sm text-on-surface-variant font-medium">
-                    Ghi nhớ phiên
-                  </Text>
+                  <Text className="text-sm text-on-surface-variant font-medium">Ghi nhớ phiên</Text>
                 </Pressable>
 
-                <Pressable
-                  onPress={() =>
-                    triggerToast("Tính năng khôi phục đang chuẩn bị")
-                  }
-                >
+                <Pressable onPress={() => triggerToast("Tính năng khôi phục đang chuẩn bị")}>
                   <Text className="text-sm text-on-surface-secondary font-semibold hover:underline">
                     Quên mật khẩu?
                   </Text>
@@ -229,14 +210,8 @@ export default function LoginScreen() {
               </View>
 
               {/* Primary Submit Button */}
-              <Button
-                onPress={handleLogin}
-                loading={loading}
-                className="w-full mt-1"
-              >
-                <Text className="text-base font-bold text-primary-foreground">
-                  Đăng nhập
-                </Text>
+              <Button onPress={handleLogin} loading={loading} className="w-full mt-1">
+                <Text className="text-base font-bold text-primary-foreground">Đăng nhập</Text>
                 <ArrowRight size={19} color="#09090B" />
               </Button>
             </View>
@@ -253,11 +228,7 @@ export default function LoginScreen() {
             {/* Alternative Auth Actions */}
             <View className="w-full gap-3 mb-6">
               {/* Guest Mode Button */}
-              <Button
-                variant="secondary"
-                onPress={handleGuestMode}
-                className="w-full"
-              >
+              <Button variant="secondary" onPress={handleGuestMode} className="w-full">
                 <Compass size={20} color="#FFFFFF" />
                 <Text className="text-base font-medium text-primary">
                   Tiếp tục với Chế độ Khách
@@ -265,24 +236,16 @@ export default function LoginScreen() {
               </Button>
 
               {/* Google Social Login Button */}
-              <Button
-                variant="secondary"
-                onPress={handleGoogleAuth}
-                className="w-full"
-              >
+              <Button variant="secondary" onPress={handleGoogleAuth} className="w-full">
                 <GoogleLogo size={20} />
-                <Text className="text-base font-medium text-primary">
-                  Tiếp tục với Google
-                </Text>
+                <Text className="text-base font-medium text-primary">Tiếp tục với Google</Text>
               </Button>
             </View>
 
             {/* Footer Prompt & Security Badge */}
             <View className="items-center gap-3.5">
               <View className="flex-row items-center gap-2">
-                <Text className="text-sm text-on-surface-variant">
-                  Chưa có tài khoản?
-                </Text>
+                <Text className="text-sm text-on-surface-variant">Chưa có tài khoản?</Text>
                 <Pressable onPress={() => router.replace("/register")}>
                   <Text className="text-sm font-bold text-primary underline">
                     Tạo tài khoản mới
