@@ -1,0 +1,72 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended", ":separateMultipleMajorReleases", ":combinePatchMinorReleases"],
+  "timezone": "UTC",
+  "minimumReleaseAge": "3 days",
+  "prConcurrentLimit": 10,
+  "prHourlyLimit": 4,
+  "enabledManagers": ["bun", "npm", "github-actions"],
+  "packageRules": [
+    {
+      "description": "Block Expo SDK major upgrades. Must upgrade manually via `npx expo upgrade`.",
+      "extends": ["monorepo:expo"],
+      "matchUpdateTypes": ["major"],
+      "enabled": false
+    },
+    {
+      "description": "Group in-SDK Expo patch and minor updates into a single PR.",
+      "extends": ["monorepo:expo"],
+      "matchUpdateTypes": ["patch", "minor"],
+      "groupName": "Expo SDK internal updates"
+    },
+    {
+      "description": "Block React Native & React updates; versions are pinned by the current Expo SDK.",
+      "matchPackageNames": [
+        "react",
+        "react-dom",
+        "react-native",
+        "@react-native/**",
+        "@types/react",
+        "@types/react-dom"
+      ],
+      "enabled": false
+    },
+    {
+      "description": "Block major/minor updates to native packages pinned by Expo bundledNativeModules.",
+      "matchPackageNames": [
+        "react-native-reanimated",
+        "react-native-screens",
+        "react-native-safe-area-context",
+        "react-native-gesture-handler",
+        "react-native-svg",
+        "@shopify/flash-list"
+      ],
+      "matchUpdateTypes": ["major", "minor"],
+      "enabled": false
+    },
+    {
+      "description": "Group allowed patch updates for Expo native modules.",
+      "matchPackageNames": [
+        "react-native-reanimated",
+        "react-native-screens",
+        "react-native-safe-area-context",
+        "react-native-gesture-handler",
+        "react-native-svg",
+        "@shopify/flash-list"
+      ],
+      "matchUpdateTypes": ["patch"],
+      "groupName": "React Native native modules (patches)"
+    },
+    {
+      "description": "Group UI primitives and styling packages.",
+      "matchPackageNames": ["@rn-primitives/**", "nativewind", "tailwindcss"],
+      "groupName": "UI & styling"
+    },
+    {
+      "description": "Group dev toolchain updates (linters, formatters, typescript).",
+      "matchPackageNames": ["oxlint", "oxfmt", "typescript", "@types/**"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "groupName": "Dev toolchain"
+    }
+  ]
+}

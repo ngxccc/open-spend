@@ -4,58 +4,75 @@
 "area:auth":
   - changed-files:
       - any-glob-to-any-file:
-          - "src/app/index.tsx"
-          - "src/app/register.tsx"
-          - "src/**/auth*/**"
+          - "apps/mobile/src/app/index.tsx"
+          - "apps/mobile/src/app/register.tsx"
+          - "apps/mobile/src/**/auth*/**"
+          - "apps/server/src/**/auth*/**"
 
 "area:wallet":
   - changed-files:
       - any-glob-to-any-file:
-          - "src/**/wallet*/**"
-          - "src/components/icons/WalletEmblem.tsx"
+          - "apps/mobile/src/**/wallet*/**"
+          - "apps/mobile/src/components/icons/WalletEmblem.tsx"
+          - "packages/shared/src/**/wallet*/**"
 
 "area:expense":
   - changed-files:
       - any-glob-to-any-file:
-          - "src/**/expense*/**"
+          - "apps/mobile/src/**/expense*/**"
+          - "packages/shared/src/**/expense*/**"
 
 "area:income":
   - changed-files:
       - any-glob-to-any-file:
-          - "src/**/income*/**"
+          - "apps/mobile/src/**/income*/**"
+          - "packages/shared/src/**/income*/**"
 
 "area:category":
   - changed-files:
       - any-glob-to-any-file:
-          - "src/**/categor*/**"
+          - "apps/mobile/src/**/categor*/**"
+          - "packages/shared/src/**/categor*/**"
 
 "area:ui":
   - changed-files:
       - any-glob-to-any-file:
-          - "src/components/**/*"
-          - "src/constants/**/*"
-          - "src/global.css"
-          - "tailwind.config.js"
+          - "apps/mobile/src/components/**/*"
+          - "apps/mobile/src/constants/**/*"
+          - "apps/mobile/src/global.css"
+          - "apps/mobile/postcss.config.mjs"
 
 "area:app":
   - changed-files:
       - any-glob-to-any-file:
-          - "src/app/**/*"
-          - "app.json"
-          - "app.config.ts"
-          - "metro.config.js"
-          - "babel.config.js"
+          - "apps/mobile/src/app/**/*"
+          - "apps/mobile/app.json"
+          - "apps/mobile/app.config.ts"
+          - "apps/mobile/metro.config.js"
+          - "apps/mobile/babel.config.js"
+
+"area:server":
+  - changed-files:
+      - any-glob-to-any-file:
+          - "apps/server/**/*"
+
+"area:shared":
+  - changed-files:
+      - any-glob-to-any-file:
+          - "packages/shared/**/*"
 
 "area:ci":
   - changed-files:
       - any-glob-to-any-file:
           - ".github/**/*"
-          - "eas.json"
+          - "apps/mobile/eas.json"
+          - "renovate.json"
 
 "area:e2e":
   - changed-files:
       - any-glob-to-any-file:
           - ".maestro/**/*"
+          - "apps/mobile/.maestro/**/*"
 
 "area:harness":
   - changed-files:
