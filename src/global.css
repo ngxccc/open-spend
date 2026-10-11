@@ -1,3 +1,45 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/preflight.css" layer(base);
+@import "tailwindcss/utilities.css";
+@import "nativewind/theme";
+
+@theme {
+  --color-surface: #121214;
+  --color-surface-dim: #0c0c0e;
+  --color-surface-bright: #242429;
+  --color-surface-container-lowest: #0e0e10;
+  --color-surface-container-low: #18181b;
+  --color-surface-container: #1e1e22;
+  --color-surface-container-high: #27272b;
+  --color-surface-container-highest: #323238;
+
+  --color-on-surface: #f4f4f5;
+  --color-on-surface-variant: #a1a1aa;
+  --color-on-surface-secondary: #d4d4d8;
+  --color-on-surface-tertiary: #ffffff;
+
+  --color-primary: #ffffff;
+  --color-primary-foreground: #09090b;
+  --color-primary-container: #3f3f46;
+
+  --color-secondary: #27272b;
+  --color-secondary-foreground: #f4f4f5;
+
+  --color-muted: #27272a;
+  --color-muted-foreground: #a1a1aa;
+
+  --color-destructive: #ef4444;
+  --color-destructive-foreground: #ffffff;
+
+  --color-border: #27272a;
+  --color-border-subtle: #3f3f46;
+  --color-border-interactive: #52525b;
+
+  --color-input: #27272a;
+  --color-ring: #3f3f46;
+  --color-background: #121214;
+  --color-foreground: #f4f4f5;
+  --color-success: #10b981;
+  --color-danger: #ef4444;
+  --color-brand: #f59e0b;
+}
