@@ -9,6 +9,7 @@ Deciders: Core Architecture Team
 OpenSpend requires an onboarding experience that permits instant user interaction without registration barriers. Users must be able to launch the application as a guest, create multiple wallets, and track expenses and incomes entirely offline. When a user subsequently creates an account or logs in, their locally accumulated financial ledger must be synchronized to cloud infrastructure without data loss.
 
 An analysis of historical transaction data archives from related personal finance tooling (`moonee-backup-latest.zip`) identified that:
+
 - Multi-tier bookkeeping models (`items` $\rightarrow$ `ledgerEvents` $\rightarrow$ `accountPostings`) introduce unnecessary complexity for single-user personal finance applications.
 - Floating-point representations (`REAL` / binary IEEE-754 floats) introduce rounding discrepancies in account balances with fractional currency components (e.g., fractional bank interest and foreign exchange rates).
 - Offline-first distributed systems require client-generated primary keys to prevent primary key collisions during multi-device or guest-to-cloud promotion.

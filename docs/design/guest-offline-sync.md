@@ -26,6 +26,7 @@ OpenSpend supports both unauthenticated guest users and authenticated cloud-sync
 ### Learnings from Moonee Backup Analysis
 
 Analysis of the legacy Moonee data archive (`moonee-backup-latest.zip`) identified architectural patterns to adopt and avoid:
+
 - **Adopted**: Time-ordered partitioning for data backups, integer/fixed-point minor unit representation for currencies, and soft-delete audit records for change tracking.
 - **Pruned (Anti-Patterns)**: Multi-layer accounting structures (`items` $\rightarrow$ `ledgerEvents` $\rightarrow$ `accountPostings`), unused speculative tables (wealth profiles, cart sessions, lending goals), and terminology drift. All domain terms are standardized strictly against `CONTEXT.md` (`Wallet`, `Expense`, `Income`, `Category`).
 
@@ -39,7 +40,7 @@ Analysis of the legacy Moonee data archive (`moonee-backup-latest.zip`) identifi
 flowchart TD
     subgraph Monorepo["Monorepo Workspace (Bun Workspaces)"]
         Shared["packages/shared<br/>(Zod Schemas & DTO Contracts)"]
-        
+
         subgraph Client["apps/mobile (Expo / React Native)"]
             UI["UI Layer (FlashList / Reanimated)"]
             State["State Cache (Zustand / MMKV)"]
@@ -97,6 +98,7 @@ flowchart TD
    - `transfers/`: `transfer.schema.ts`, `transfer.service.ts`
    - `schedules/`: `schedule.schema.ts`, `schedule.runner.ts`
    - `sync/`: `sync-queue.schema.ts`, `sync.worker.ts`, `sync.client.ts`
+
 ---
 
 ## Operational Flow
@@ -228,11 +230,11 @@ sequenceDiagram
 
 ## Domain Invariant Taxonomy (INV-N)
 
-| Invariant ID | Domain Invariant Name | Formal Condition | Verification Test Strategy |
-| :--- | :--- | :--- | :--- |
-| **INV-SYNC-1** | Client ID Immutability | `entity.id` remains invariant throughout guest and cloud-synced lifecycles. | Unit test verifying UUID v7 persistence before and after cloud promotion. |
-| **INV-SYNC-2** | Atomic Outbox Commitment | $\forall m \in \text{Mutations}, \Delta(\text{Entity}) \iff \Delta(\text{sync\_queue})$ within the same SQLite transaction. | Rollback test confirming failure in entity write yields no dangling outbox row. |
-| **INV-SYNC-3** | Monotonic Queue Ordering | Outbox processing order strictly satisfies $i < j \implies \text{created\_at}(i) \le \text{created\_at}(j)$. | Integration test processing outbox mutations against mock backend. |
-| **INV-SYNC-4** | Transfer Balance Conservation | $\Delta(\text{from\_wallet}) = -(\text{amount} + \text{fee}) \land \Delta(\text{to\_wallet}) = +\text{amount}$. | Test verifying bilateral balance adjustment on `transfers`. |
+| Invariant ID   | Domain Invariant Name          | Formal Condition                                                                                                                     | Verification Test Strategy                                                                |
+| :------------- | :----------------------------- | :----------------------------------------------------------------------------------------------------------------------------------- | :---------------------------------------------------------------------------------------- |
+| **INV-SYNC-1** | Client ID Immutability         | `entity.id` remains invariant throughout guest and cloud-synced lifecycles.                                                          | Unit test verifying UUID v7 persistence before and after cloud promotion.                 |
+| **INV-SYNC-2** | Atomic Outbox Commitment       | $\forall m \in \text{Mutations}, \Delta(\text{Entity}) \iff \Delta(\text{sync\_queue})$ within the same SQLite transaction.          | Rollback test confirming failure in entity write yields no dangling outbox row.           |
+| **INV-SYNC-3** | Monotonic Queue Ordering       | Outbox processing order strictly satisfies $i < j \implies \text{created\_at}(i) \le \text{created\_at}(j)$.                         | Integration test processing outbox mutations against mock backend.                        |
+| **INV-SYNC-4** | Transfer Balance Conservation  | $\Delta(\text{from\_wallet}) = -(\text{amount} + \text{fee}) \land \Delta(\text{to\_wallet}) = +\text{amount}$.                      | Test verifying bilateral balance adjustment on `transfers`.                               |
 | **INV-SYNC-5** | Fixed-Point Monetary Precision | $\forall \text{amount}, \text{scale}(\text{amount}) \le 4 \land \text{amount} \in \mathbb{D}$ (no IEEE-754 binary float conversion). | Unit test verifying exact arithmetic on decimal fractions (e.g., `0.10 + 0.20 === 0.30`). |
-| **INV-SYNC-6** | Schedule Execution Exclusivity | For any given schedule $s$, $\text{count}(\text{executions}(s, d)) \le 1$ for date $d$. | Test verifying idempotency when schedule evaluation executes multiple times on same date. |
+| **INV-SYNC-6** | Schedule Execution Exclusivity | For any given schedule $s$, $\text{count}(\text{executions}(s, d)) \le 1$ for date $d$.                                              | Test verifying idempotency when schedule evaluation executes multiple times on same date. |
