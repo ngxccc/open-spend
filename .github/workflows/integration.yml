@@ -19,3 +19,6 @@ jobs:
 
       - name: Quality Check
         run: bun run check
+
+      - name: Expo Compatibility Check
+        run: bunx expo-doctor
