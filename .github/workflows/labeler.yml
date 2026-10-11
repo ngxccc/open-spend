@@ -23,7 +23,7 @@ jobs:
           configuration-path: ".github/labeler.yml"
           sync-labels: false
 
-      - name: "Apply Type Label from PR Title (Conventional Commits)"
+      - name: "Apply Type Label from PR Title"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PR_NUMBER: ${{ github.event.pull_request.number }}

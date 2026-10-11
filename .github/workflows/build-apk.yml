@@ -26,14 +26,15 @@ jobs:
 
       - name: Check package.json version
         id: version_check
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          VERSION=$(jq -r .version package.json)
+          VERSION=$(jq -r .version apps/mobile/package.json)
           TAG="v$VERSION"
           echo "tag=$TAG" >> "$GITHUB_OUTPUT"
 
-          git fetch --tags
-          if git rev-parse "$TAG" >/dev/null 2>&1; then
-            echo "Tag $TAG already exists."
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            echo "Release $TAG already exists on GitHub."
             echo "is_new_version=false" >> "$GITHUB_OUTPUT"
             if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
               echo "Manual trigger: proceeding to build."
@@ -43,14 +44,9 @@ jobs:
               echo "should_build=false" >> "$GITHUB_OUTPUT"
             fi
           else
-            echo "New version detected: $TAG"
+            echo "New release target detected: $TAG (no existing release)"
             echo "is_new_version=true" >> "$GITHUB_OUTPUT"
             echo "should_build=true" >> "$GITHUB_OUTPUT"
-
-            git config user.name "github-actions[bot]"
-            git config user.email "github-actions[bot]@users.noreply.github.com"
-            git tag "$TAG"
-            git push origin "$TAG"
           fi
 
   build:
@@ -84,32 +80,65 @@ jobs:
         run: bun install --frozen-lockfile
 
       - name: Prebuild native Android project
+        working-directory: apps/mobile
         run: bunx expo prebuild --platform android --clean
 
       - name: Build release APK
-        working-directory: android
+        working-directory: apps/mobile/android
         run: |
           chmod +x gradlew
           ./gradlew assembleRelease --no-daemon
 
+      - name: Enable KVM group perms for Hardware Acceleration
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+
+      - name: Install Maestro CLI
+        run: |
+          curl -fsSL "https://get.maestro.mobile.dev" | bash
+          echo "$HOME/.maestro/bin" >> $GITHUB_PATH
+
+      - name: Run Maestro E2E Tests on Android Emulator
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 31
+          target: default
+          arch: x86_64
+          profile: pixel_6
+          disable-animations: true
+          script: |
+            adb install apps/mobile/android/app/build/outputs/apk/release/app-release.apk
+            maestro test apps/mobile/.maestro/
       - name: Upload APK artifact
         uses: actions/upload-artifact@v7
         with:
           name: open-spend-${{ needs.check-version.outputs.tag || 'apk' }}
-          path: android/app/build/outputs/apk/release/*.apk
+          path: apps/mobile/android/app/build/outputs/apk/release/*.apk
           retention-days: 14
 
-      - name: Create GitHub Release
-        if: needs.check-version.outputs.is_new_version == 'true'
-        working-directory: android/app/build/outputs/apk/release
+      - name: Tag and Create GitHub Release
+        if: needs.check-version.outputs.should_build == 'true'
+        working-directory: apps/mobile/android/app/build/outputs/apk/release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           TAG="${{ needs.check-version.outputs.tag }}"
           mv app-release.apk "openspend-${TAG}.apk" || true
           sha256sum "openspend-${TAG}.apk" > SHA256SUMS.txt
-          gh release create "$TAG" \
-            "openspend-${TAG}.apk" \
-            SHA256SUMS.txt \
-            --title "OpenSpend $TAG" \
-            --generate-notes
+
+          # Atomically tag commit only after successful build and test
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git tag -f "$TAG"
+          git push -f origin "$TAG"
+
+          if [ "${{ needs.check-version.outputs.is_new_version }}" = "true" ]; then
+            gh release create "$TAG" \
+              "openspend-${TAG}.apk" \
+              SHA256SUMS.txt \
+              --title "OpenSpend $TAG" \
+              --generate-notes
+            gh release upload "$TAG" "openspend-${TAG}.apk" SHA256SUMS.txt --clobber
+          fi
