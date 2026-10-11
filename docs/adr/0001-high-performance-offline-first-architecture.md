@@ -9,6 +9,7 @@ Deciders: Core Architecture Team
 OpenSpend is a personal finance mobile application designed for tracking personal expenses and incomes across multiple wallets. To provide an optimal user experience, financial tracking applications demand instant startup times, reliable offline operability, and smooth scrolling (60–120 FPS) across transaction histories containing thousands of items.
 
 During architectural exploration, adopting or porting source code from the Telegram client ecosystem (such as TDLib in C++, custom direct Android Canvas drawing via `ChatMessageCell`, and iOS Texture/AsyncDisplayKit nodes) was evaluated to emulate Telegram's fluid interface. However, direct porting of Telegram's low-level native codebase introduces severe architectural friction:
+
 - Language and toolchain divergence against the Expo SDK 57 managed workflow (React Native 0.86, TypeScript).
 - Maintenance liabilities associated with custom C++ JSI TurboModules and native build configurations, breaking Expo Continuous Native Generation (CNG) guarantees.
 - Disproportionate complexity for a personal finance domain where standard React Native optimization paradigms can achieve 120 FPS without leaving the managed ecosystem.

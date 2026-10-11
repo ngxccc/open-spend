@@ -9,6 +9,7 @@ Deciders: Core Architecture Team
 OpenSpend began as a standalone mobile repository built with Expo. Following architectural decisions establishing an offline-first mobile client with cloud synchronization (ADR-0001, ADR-0002), the project requires a backend API, synchronization endpoints, and a shared domain contract layer.
 
 Maintaining mobile and backend as separate repositories creates operational friction:
+
 - Synchronization contracts, Zod validation schemas, and TypeScript Data Transfer Objects (DTOs) must be duplicated or published to private package registries.
 - Contract migrations across client and server require coordinated multi-repository pull requests, increasing the risk of protocol mismatch.
 - Mobile persistence requires a type-safe, lightweight Object-Relational Mapping (ORM) layer that operates on `expo-sqlite` without runtime bloat.
