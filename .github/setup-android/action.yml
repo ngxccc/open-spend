@@ -1,0 +1,25 @@
+name: Setup Android Environment
+description: Sets up Java JDK 17, Android SDK tools, and Gradle build cache
+
+inputs:
+  cache-read-only:
+    description: "Whether Gradle cache should be read-only"
+    required: false
+    default: "false"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Setup Java JDK 17
+      uses: actions/setup-java@v6
+      with:
+        distribution: "zulu"
+        java-version: "17"
+
+    - name: Setup Android SDK
+      uses: android-actions/setup-android@v4
+
+    - name: Setup Gradle Build Cache
+      uses: gradle/actions/setup-gradle@v6
+      with:
+        cache-read-only: ${{ inputs.cache-read-only }}
