@@ -2,9 +2,10 @@ import "@/global.css";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { PortalHost } from "@rn-primitives/portal";
+import { ErrorBoundary } from "@/components/ui";
 export default function RootLayout() {
   return (
-    <>
+    <ErrorBoundary>
       <StatusBar style="light" />
       <Stack
         initialRouteName="index"
@@ -15,6 +16,6 @@ export default function RootLayout() {
         }}
       />
       <PortalHost />
-    </>
+    </ErrorBoundary>
   );
 }

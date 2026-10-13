@@ -1,5 +1,4 @@
 import { Platform } from "react-native";
-import { createMMKV } from "react-native-mmkv";
 
 /**
  * Normalized synchronous Key-Value storage client.
@@ -86,31 +85,48 @@ class MemoryStorage implements StorageClient {
   }
 }
 
-let storageInstance: StorageClient;
+let underlyingClient: StorageClient | null = null;
 
-if (Platform.OS === "web") {
-  storageInstance = new WebLocalStorage();
-} else {
+function getClient(): StorageClient {
+  if (underlyingClient) return underlyingClient;
+
+  if (Platform.OS === "web") {
+    underlyingClient = new WebLocalStorage();
+    return underlyingClient;
+  }
+
   try {
+    // Dynamically require createMMKV so module loading never throws fatal exception at bundle evaluation time
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const { createMMKV } = require("react-native-mmkv");
     const mmkv = createMMKV({ id: "open-spend-cache" });
-    storageInstance = {
-      getString: (key) => mmkv.getString(key),
-      set: (key, val) => mmkv.set(key, val),
-      getBoolean: (key) => mmkv.getBoolean(key),
-      getNumber: (key) => mmkv.getNumber(key),
-      remove: (key) => {
+    underlyingClient = {
+      getString: (key: string) => mmkv.getString(key),
+      set: (key: string, val: string | boolean | number) => mmkv.set(key, val),
+      getBoolean: (key: string) => mmkv.getBoolean(key),
+      getNumber: (key: string) => mmkv.getNumber(key),
+      remove: (key: string) => {
         mmkv.remove(key);
       },
       clearAll: () => {
         mmkv.clearAll();
       },
     };
+    return underlyingClient;
   } catch {
-    storageInstance = new MemoryStorage();
+    underlyingClient = new MemoryStorage();
+    return underlyingClient;
   }
 }
 
-export const kvStorage = storageInstance;
+export const kvStorage: StorageClient = {
+  getString: (key: string) => getClient().getString(key),
+  set: (key: string, val: string | boolean | number) => getClient().set(key, val),
+  getBoolean: (key: string) => getClient().getBoolean(key),
+  getNumber: (key: string) => getClient().getNumber(key),
+  remove: (key: string) => getClient().remove(key),
+  clearAll: () => getClient().clearAll(),
+};
 
 export const StorageKeys = {
   PRIVACY_MASK: "privacy_mask_enabled",
