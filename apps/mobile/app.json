@@ -5,7 +5,7 @@
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "openspend",
-    "userInterfaceStyle": "automatic",
+    "userInterfaceStyle": "dark",
     "ios": {
       "supportsTablet": true
     },
@@ -36,7 +36,7 @@
         "expo-build-properties",
         {
           "android": {
-            "buildArchs": ["arm64-v8a"],
+            "buildArchs": ["arm64-v8a", "x86_64"],
             "enableMinifyInReleaseBuilds": true,
             "enableShrinkResourcesInReleaseBuilds": true
           }

@@ -8,10 +8,11 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { router } from "expo-router";
+import { router, Redirect } from "expo-router";
 import { Button, Text, Toast } from "@/components/ui";
 import { GoogleLogo, OpenSpendEmblem } from "@/components/icons";
 import { ArrowRight, Compass, Eye, EyeOff, Lock, Mail } from "lucide-react-native";
+import { kvStorage, StorageKeys } from "@/lib/storage";
 interface LoginErrors {
   identifier?: string;
   password?: string;
@@ -26,6 +27,11 @@ export default function LoginScreen() {
   const [errors, setErrors] = useState<LoginErrors>({});
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
+  // Auto-redirect to dashboard if guest session or authenticated state is active
+  const isGuestActive = kvStorage.getBoolean(StorageKeys.GUEST_SESSION);
+  if (isGuestActive) {
+    return <Redirect href="/(tabs)" />;
+  }
   const triggerToast = (msg: string) => {
     setToastMessage(msg);
     setTimeout(() => {
@@ -66,9 +72,9 @@ export default function LoginScreen() {
     }, 800);
   };
   const handleGuestMode = () => {
-    triggerToast("Đang kích hoạt Chế độ Khách...");
+    kvStorage.set(StorageKeys.GUEST_SESSION, true);
+    router.replace("/(tabs)");
   };
-
   const handleGoogleAuth = () => {
     triggerToast("Đang kết nối tài khoản Google...");
   };
