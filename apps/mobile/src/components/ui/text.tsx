@@ -4,9 +4,27 @@ import { cva, type VariantProps } from "class-variance-authority";
 import * as React from "react";
 import { Platform, Text as RNText, type Role } from "react-native";
 
+/**
+ * OpenSpend Typography System
+ * Standardized scale ensuring consistent hierarchy across Auth and Dashboard.
+ *
+ * Scales:
+ * - display: 32px / font-extrabold / tracking-tight (Large metrics / Balance)
+ * - h1: 28px / font-extrabold / tracking-tight (Screen Hero titles)
+ * - h2: 22px / font-bold / tracking-tight (Section / Card headers)
+ * - h3: 18px / font-bold / tracking-tight (Sub-card titles)
+ * - h4: 16px / font-semibold (Item list titles)
+ * - body: 15px / font-normal / leading-relaxed (Standard content)
+ * - bodyMedium: 15px / font-medium (Emphasized content)
+ * - bodySemi: 15px / font-semibold (Compact headers / numbers)
+ * - subtext: 13px / font-normal (Descriptions / subtitles)
+ * - subtextMedium: 13px / font-medium (Badges / chips)
+ * - caption: 12px / font-normal (Timestamps / meta notes)
+ * - captionMedium: 12px / font-medium (Button subtext / small labels)
+ */
 const textVariants = cva(
   cn(
-    "text-foreground text-base",
+    "text-on-surface",
     Platform.select({
       web: "select-text",
     }),
@@ -14,26 +32,19 @@ const textVariants = cva(
   {
     variants: {
       variant: {
-        default: "",
-        h1: cn(
-          "text-center text-4xl font-extrabold tracking-tight",
-          Platform.select({ web: "scroll-m-20 text-balance" }),
-        ),
-        h2: cn(
-          "border-border border-b pb-2 text-3xl font-semibold tracking-tight",
-          Platform.select({ web: "scroll-m-20 first:mt-0" }),
-        ),
-        h3: cn("text-2xl font-semibold tracking-tight", Platform.select({ web: "scroll-m-20" })),
-        h4: cn("text-xl font-semibold tracking-tight", Platform.select({ web: "scroll-m-20" })),
-        p: "mt-3 leading-7 sm:mt-6",
-        blockquote: "mt-4 border-l-2 pl-3 italic sm:mt-6 sm:pl-6",
-        code: cn(
-          "bg-muted relative rounded px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold",
-        ),
-        lead: "text-muted-foreground text-xl",
-        large: "text-lg font-semibold",
-        small: "text-sm font-medium leading-none",
-        muted: "text-muted-foreground text-sm",
+        default: "text-[15px] font-normal leading-6 text-on-surface",
+        display: "text-[32px] font-extrabold tracking-tight text-primary leading-tight",
+        h1: "text-[26px] font-extrabold tracking-tight text-primary leading-8",
+        h2: "text-[20px] font-bold tracking-tight text-primary leading-7",
+        h3: "text-[18px] font-bold tracking-tight text-primary leading-6",
+        h4: "text-[16px] font-semibold text-primary leading-6",
+        body: "text-[15px] font-normal text-on-surface leading-6",
+        bodyMedium: "text-[15px] font-medium text-on-surface leading-6",
+        bodySemi: "text-[15px] font-semibold text-on-surface leading-6",
+        subtext: "text-[13px] font-normal text-on-surface-variant leading-5",
+        subtextMedium: "text-[13px] font-medium text-on-surface-variant leading-5",
+        caption: "text-[12px] font-normal text-on-surface-variant leading-4",
+        captionMedium: "text-[12px] font-medium text-on-surface-variant leading-4",
       },
     },
     defaultVariants: {
@@ -47,15 +58,15 @@ type TextVariantProps = VariantProps<typeof textVariants>;
 type TextVariant = NonNullable<TextVariantProps["variant"]>;
 
 const ROLE: Partial<Record<TextVariant, Role>> = {
+  display: "heading",
   h1: "heading",
   h2: "heading",
   h3: "heading",
   h4: "heading",
-  blockquote: Platform.select({ web: "blockquote" as Role }),
-  code: Platform.select({ web: "code" as Role }),
 };
 
 const ARIA_LEVEL: Partial<Record<TextVariant, string>> = {
+  display: "1",
   h1: "1",
   h2: "2",
   h3: "3",
