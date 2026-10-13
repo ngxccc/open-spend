@@ -4,14 +4,17 @@
   "private": true,
   "main": "expo-router/entry",
   "scripts": {
-    "start": "expo start",
-    "build": "bunx eas-cli build -p android --profile preview",
     "android": "expo start --android",
-    "ios": "expo start --ios",
-    "web": "expo start --web",
+    "build": "bunx eas-cli build -p android --profile preview",
     "check": "bun run typecheck",
+    "db:generate": "drizzle-kit generate --config drizzle.config.ts",
+    "db:push": "drizzle-kit push --config drizzle.config.ts",
+    "db:studio": "drizzle-kit studio --config drizzle.config.ts",
+    "ios": "expo start --ios",
+    "start": "expo start",
+    "test:e2e": "maestro test .maestro/",
     "typecheck": "tsc --noEmit",
-    "test:e2e": "maestro test .maestro/"
+    "web": "expo start --web"
   },
   "dependencies": {
     "@expo/vector-icons": "^15.1.1",
@@ -20,6 +23,7 @@
     "@rn-primitives/slot": "^1.5.2",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "drizzle-orm": "1.0.0-rc.5-5935859",
     "expo": "~57.0.27",
     "expo-build-properties": "^57.0.22",
     "expo-constants": "~57.0.21",
@@ -30,6 +34,7 @@
     "expo-linking": "~57.0.12",
     "expo-router": "~57.0.25",
     "expo-splash-screen": "~57.0.9",
+    "expo-sqlite": "~57.0.4",
     "expo-status-bar": "~57.0.1",
     "expo-symbols": "~57.0.3",
     "expo-system-ui": "~57.0.4",
@@ -48,12 +53,15 @@
     "react-native-web": "~0.21.0",
     "react-native-worklets": "0.10.1",
     "tailwind-merge": "^3.7.0",
-    "tailwindcss": "4.1.12"
+    "tailwindcss": "4.1.12",
+    "uuid": "^14.0.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "4.1.12",
     "@types/node": "^26.6.5",
     "@types/react": "~19.2.4",
+    "@types/uuid": "^11.0.0",
+    "drizzle-kit": "1.0.0-rc.5-5935859",
     "postcss": "^8.5.29",
     "typescript": "~6.0.3"
   }

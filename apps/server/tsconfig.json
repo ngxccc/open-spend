@@ -13,8 +13,11 @@
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "types": ["node"]
+    "types": ["node", "bun"],
+    "paths": {
+      "@/*": ["./src/*"]
+    }
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "scripts/**/*", "drizzle.config.ts"],
   "exclude": ["node_modules", "dist"]
 }
