@@ -1,10 +1,8 @@
 {
   "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "ignorePatterns": ["**/node_modules/**", "**/dist/**", ".expo/**", ".*/**"],
-  "plugins": ["typescript", "import", "unicorn", "react", "react-hooks"],
+  "ignorePatterns": ["**/node_modules/**", "**/dist/**", ".expo/**", ".*/**", "**/drizzle/**"],
   "env": {
-    "builtin": true,
-    "browser": true
+    "builtin": true
   },
   "options": {
     "typeAware": true
@@ -27,7 +25,6 @@
         "varsIgnorePattern": "^_"
       }
     ],
-    "typescript/consistent-type-imports": "off",
     "typescript/no-misused-promises": [
       "error",
       {
@@ -37,16 +34,7 @@
       }
     ],
     "typescript/no-empty-object-type": "error",
-    "typescript/consistent-return": "off",
-    "typescript/unbound-method": "off",
-    "typescript/no-unsafe-assignment": "off",
-    "typescript/no-unsafe-member-access": "off",
-    "typescript/no-unsafe-call": "off",
-    "typescript/no-unsafe-argument": "off",
-    "typescript/no-unsafe-return": "off",
-    "typescript/no-unsafe-type-assertion": "off",
-    "typescript/no-unnecessary-type-assertion": "off",
-    "typescript/no-require-imports": "off",
+    "typescript/no-floating-promises": "error",
     "import/no-cycle": [
       "error",
       {
@@ -54,28 +42,18 @@
         "ignoreTypes": true
       }
     ],
-    "import/no-unassigned-import": "off",
-    "unicorn/no-thenable": "off",
-    "unicorn/consistent-function-scoping": "off",
-    "unicorn/no-array-sort": "error",
-    "eslint/no-underscore-dangle": "off",
-    "react/react-in-jsx-scope": "off",
-    "react/style-prop-object": "off",
-    "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn"
+    "unicorn/no-array-sort": "error"
   },
   "overrides": [
     {
       "files": ["**/*.spec.ts", "**/*.test.ts", "test/**", "**/.maestro/**"],
       "rules": {
-        "typescript/unbound-method": "off",
+        "typescript/no-explicit-any": "off",
         "typescript/no-unsafe-assignment": "off",
         "typescript/no-unsafe-member-access": "off",
         "typescript/no-unsafe-call": "off",
         "typescript/no-unsafe-argument": "off",
-        "typescript/no-unsafe-return": "off",
-        "typescript/no-unsafe-type-assertion": "off",
-        "eslint/no-unsafe-optional-chaining": "off"
+        "typescript/no-unsafe-return": "off"
       }
     }
   ]

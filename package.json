@@ -7,22 +7,25 @@
     "packages/*"
   ],
   "scripts": {
-    "start": "bun --filter @open-spend/mobile start",
-    "start:doppler": "doppler run -- bun --filter @open-spend/mobile start",
     "android": "bun --filter @open-spend/mobile android",
-    "ios": "bun --filter @open-spend/mobile ios",
-    "web": "bun --filter @open-spend/mobile web",
     "build": "bun --filter @open-spend/mobile build",
+    "check": "bun run format && bun run deps:lint && bun run lint && bun run typecheck",
+    "deploy:server": "bun --filter @open-spend/server deploy",
+    "deps:fix": "syncpack fix",
+    "deps:lint": "syncpack lint",
     "dev:server": "bun --filter @open-spend/server dev",
     "dev:server:doppler": "bun --filter @open-spend/server dev:doppler",
-    "deploy:server": "bun --filter @open-spend/server deploy",
     "env:pull": "doppler secrets download --no-file --format env > apps/server/.env && doppler secrets download --no-file --format env > apps/mobile/.env",
-    "check": "bun run format && bun run lint && bun run typecheck",
-    "format": "oxfmt --write",
+    "format": "syncpack format && oxfmt --write",
+    "format:pkg": "syncpack format",
+    "ios": "bun --filter @open-spend/mobile ios",
     "lint": "oxlint --type-aware --fix",
-    "typecheck": "bun --filter '*' typecheck",
+    "prepare": "husky",
+    "start": "bun --filter @open-spend/mobile start",
+    "start:doppler": "doppler run -- bun --filter @open-spend/mobile start",
     "test:e2e": "bun --filter @open-spend/mobile test:e2e",
-    "prepare": "husky"
+    "typecheck": "bun --filter '*' typecheck",
+    "web": "bun --filter @open-spend/mobile web"
   },
   "devDependencies": {
     "husky": "^9.1.7",
@@ -31,13 +34,16 @@
     "oxlint": "^1.87.0",
     "oxlint-config-presets": "^0.1.20",
     "oxlint-tsgolint": "^7.0.2004",
+    "syncpack": "^15.3.3",
     "typescript": "~6.0.3"
   },
   "overrides": {
     "decode-uri-component": "^0.5.0",
+    "drizzle-kit": "1.0.0-rc.5-5935859",
+    "drizzle-orm": "1.0.0-rc.5-5935859",
     "lightningcss": "1.30.1",
     "postcss-selector-parser": "^7.1.6",
-    "uuid": "^13.0.1"
+    "uuid": "^14.0.0"
   },
   "resolutions": {
     "lightningcss": "1.30.1"

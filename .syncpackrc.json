@@ -1,0 +1,44 @@
+{
+  "$schema": "./node_modules/syncpack/schema.json",
+  "indent": "  ",
+  "sortFirst": [
+    "name",
+    "version",
+    "private",
+    "description",
+    "main",
+    "types",
+    "workspaces",
+    "scripts",
+    "dependencies",
+    "devDependencies",
+    "peerDependencies",
+    "overrides",
+    "resolutions",
+    "trustedDependencies"
+  ],
+  "sortAz": [
+    "dependencies",
+    "devDependencies",
+    "overrides",
+    "peerDependencies",
+    "resolutions",
+    "scripts"
+  ],
+  "sortPackages": true,
+  "versionGroups": [
+    {
+      "label": "Use workspace:* protocol for internal packages",
+      "packages": ["**"],
+      "dependencies": ["@open-spend/**"],
+      "dependencyTypes": ["dev", "prod"],
+      "pinVersion": "workspace:*"
+    },
+    {
+      "label": "Expo packages must follow Expo SDK conventions",
+      "packages": ["@open-spend/mobile"],
+      "dependencies": ["expo", "expo-**", "react", "react-dom", "react-native"],
+      "isIgnored": true
+    }
+  ]
+}
