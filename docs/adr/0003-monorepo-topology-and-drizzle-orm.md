@@ -28,12 +28,15 @@ We establish a monorepo workspace topology powered by Bun Workspaces and standar
    - Utilize native Bun workspaces (`bun.lock`) for dependency hoisting and atomic cross-package linking.
 2. **Mobile Database Layer (Drizzle ORM for Expo SQLite)**:
    - Adopt `drizzle-orm/expo-sqlite` as the type-safe query builder for local persistence. Drizzle operates as a zero-overhead abstraction directly over `openDatabaseSync`, providing full compile-time type safety without heavyweight runtime reflection.
-   - Execute database schema migrations using Drizzle Kit tooling.
+   - Centralize all Drizzle schemas under `apps/mobile/src/database/schemas/*` using `snakeCase.table` and `defineRelations` to prevent circular dependencies and streamline Drizzle Kit migration generation.
 3. **Backend Database Layer (PostgreSQL with Drizzle ORM)**:
-   - Deploy PostgreSQL for server-side persistence via `drizzle-orm/node-postgres` (or `drizzle-orm/postgres-js`).
-   - Define dialect-specific schemas (`sqliteTable` for mobile SQLite, `pgTable` for server PostgreSQL) while validating common domain contracts using shared Zod schemas from `packages/shared`.
-4. **Feature-Driven Domain Module Structure**:
-   - Organize the mobile application under `src/modules/*` corresponding to core domain areas (`wallets`, `expenses`, `incomes`, `categories`, `transfers`, `schedules`, and `sync`). Route handlers under `src/app/` consume module services and custom hooks.
+   - Deploy PostgreSQL for server-side persistence via `@neondatabase/serverless` and `drizzle-orm/neon-http` (or `drizzle-orm/node-postgres`), centralized under `apps/server/src/database/schemas/*` using `snakeCase.table` and `defineRelations`.
+   - Define dialect-specific schemas while validating common domain contracts using shared Zod schemas from `packages/shared`.
+4. **Schema Modeling Conventions (Theme-Aware & Timezone-Safe)**:
+   - **Theme-Aware Visual Tokens (`icon`, `color`)**: Keep `icon` and `color` columns nullable without hardcoded database defaults so UI layers can dynamically resolve fallback icons and theme-adaptive colors across Light/Dark modes.
+   - **Timezone-Safe Transaction Dates (`occurredAt` + `minuteOfDay`)**: Separate financial calendar dates (`occurredAt` as `YYYY-MM-DD`) from optional local intraday ordering (`minuteOfDay` as `0..1439`) and technical instants (`createdAt` / `updatedAt`). UI forms default `occurredAt` and `minuteOfDay` to current local time while permitting null `minuteOfDay` when backdating date-only entries.
+5. **Feature-Driven Domain Module Structure**:
+   - Organize application domain logic under `src/modules/*` (`wallets`, `expenses`, `incomes`, `categories`, `transfers`, `schedules`, and `sync`) consuming the centralized database layer.
 
 ## Positive Consequences
 
