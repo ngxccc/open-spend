@@ -3,20 +3,31 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "bun run src/index.ts",
+    "db:baseline": "doppler run -c dev -- bun scripts/baseline.ts && doppler run -c prd -- bun scripts/baseline.ts --inject-only && doppler run -c test -- bun scripts/baseline.ts --inject-only",
+    "db:generate": "doppler run -- drizzle-kit generate --config drizzle.config.ts",
+    "db:migrate": "sh -c 'if [ $# -eq 0 ]; then doppler run --preserve-env=\"true\" -- drizzle-kit migrate --config drizzle.config.ts; echo \"\"; else for e in \"$@\"; do echo \"\"; echo \"[DB Migrate] Running for config: $e\"; doppler run --preserve-env=\"true\" -c \"$e\" -- drizzle-kit migrate --config drizzle.config.ts || exit 1; echo \"\"; done; fi' _",
+    "db:push": "sh -c 'if [ $# -eq 0 ]; then doppler run -- drizzle-kit push --config drizzle.config.ts; echo \"\"; else for e in \"$@\"; do echo \"\"; echo \"[DB Push] Running for config: $e\"; doppler run --preserve-env=\"true\" -c \"$e\" -- drizzle-kit push --config drizzle.config.ts || exit 1; echo \"\"; done; fi' _",
+    "db:studio": "doppler run -- drizzle-kit studio --config drizzle.config.ts",
+    "deploy": "wrangler deploy",
     "dev": "bun --watch src/index.ts",
     "dev:doppler": "doppler run -- bun --watch src/index.ts",
-    "deploy": "wrangler deploy",
+    "start": "bun run src/index.ts",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@neondatabase/serverless": "^1.2.0",
     "@open-spend/shared": "workspace:*",
     "@t3-oss/env-core": "^0.13.11",
+    "drizzle-orm": "1.0.0-rc.5-5935859",
     "hono": "^4.7.2",
+    "uuid": "^14.0.0",
     "zod": "^3.24.2"
   },
   "devDependencies": {
+    "@types/bun": "^1.4.2",
     "@types/node": "^26.6.5",
+    "@types/uuid": "^11.0.0",
+    "drizzle-kit": "1.0.0-rc.5-5935859",
     "typescript": "~6.0.3",
     "wrangler": "^4.149.0"
   }

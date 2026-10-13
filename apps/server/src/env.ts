@@ -19,12 +19,7 @@ const robustUrlSchema = z.preprocess((val) => {
 
 export const env = createEnv({
   server: {
-    PORT: z
-      .string()
-      .or(z.number())
-      .transform((val) => (typeof val === "number" ? val : Number(val)))
-      .default(3000),
-
+    PORT: z.string().default("3000").transform(Number),
     NODE_ENV: z
       .preprocess(
         (val) => (typeof val === "string" ? val.toLowerCase() : val),
@@ -36,13 +31,13 @@ export const env = createEnv({
       )
       .default(ENVIRONMENT_MODES.DEVELOPMENT),
 
-    // Database connection string (PostgreSQL / Neon)
-    DB_URL: robustUrlSchema
-      .optional()
-      .catch(undefined)
-      .default(
-        "postgresql://neondb_owner:npg_sample@ep-sample-pooler.ap-southeast-1.aws.neon.tech/openspend?sslmode=require",
-      ),
+    // Database configuration
+    DB_URL: robustUrlSchema.optional().catch(undefined),
+    DB_HOST: z.string().default("localhost"),
+    DB_PORT: z.string().default("5432").transform(Number),
+    DB_USERNAME: z.string().default("postgres"),
+    DB_PASSWORD: z.string().default("postgrespassword"),
+    DB_NAME: z.string().default("open_spend"),
 
     // JWT Configuration
     JWT_SECRET: z
@@ -60,6 +55,11 @@ export const env = createEnv({
     PORT: process.env.PORT,
     NODE_ENV: process.env.NODE_ENV,
     DB_URL: process.env.DB_URL,
+    DB_HOST: process.env.DB_HOST,
+    DB_PORT: process.env.DB_PORT,
+    DB_USERNAME: process.env.DB_USERNAME,
+    DB_PASSWORD: process.env.DB_PASSWORD,
+    DB_NAME: process.env.DB_NAME,
     JWT_SECRET: process.env.JWT_SECRET,
     JWT_ACCESS_EXPIRES_IN: process.env.JWT_ACCESS_EXPIRES_IN,
     JWT_REFRESH_EXPIRES_IN: process.env.JWT_REFRESH_EXPIRES_IN,
