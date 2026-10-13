@@ -1,2 +1,2 @@
 #!/bin/sh
-bun run typecheck && bunx lint-staged
+bun run deps:lint && bun run typecheck && bunx lint-staged
