@@ -7,6 +7,7 @@ export default function RootLayout() {
     <>
       <StatusBar style="light" />
       <Stack
+        initialRouteName="index"
         screenOptions={{
           headerShown: false,
           animation: "none",

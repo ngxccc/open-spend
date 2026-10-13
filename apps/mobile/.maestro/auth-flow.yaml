@@ -1,6 +1,8 @@
 appId: com.openspend.app
 ---
-- launchApp
+- launchApp:
+    clearState: true
+
 - assertVisible: "OpenSpend"
 - assertVisible: "Chào mừng trở lại"
 - assertVisible: "Email"
@@ -12,12 +14,17 @@ appId: com.openspend.app
 - assertVisible: "Vui lòng nhập địa chỉ email"
 - assertVisible: "Vui lòng nhập mật khẩu"
 
-# Test Guest Mode Toast triggering and ensure toast text displays
-- tapOn: "Tiếp tục với Chế độ Khách"
-- assertVisible: "Đang kích hoạt Chế độ Khách..."
-
-# Navigate to Register screen
+# Navigate to Register screen from Login
 - tapOn: "Tạo tài khoản mới"
 - assertVisible: "Tạo tài khoản"
 - assertVisible: "Họ và tên"
 - assertVisible: "Xác nhận mật khẩu"
+
+# Return to Login
+- tapOn: "Đăng nhập ngay"
+- assertVisible: "Chào mừng trở lại"
+
+# Test Guest Mode entry to Dashboard
+- tapOn: "Tiếp tục với Chế độ Khách"
+- assertVisible: "Tổng quan tài chính"
+- assertVisible: "Tổng số dư khả dụng"
