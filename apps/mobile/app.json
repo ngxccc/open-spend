@@ -5,7 +5,7 @@
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "openspend",
-    "userInterfaceStyle": "automatic",
+    "userInterfaceStyle": "dark",
     "ios": {
       "supportsTablet": true
     },
