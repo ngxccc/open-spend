@@ -77,27 +77,16 @@ flowchart TD
 
 1. **Primary Key Strategy (UUID v7)**: Every entity (`Wallet`, `Expense`, `Income`, `Category`, `Transfer`, `Schedule`) generates a client-side UUID v7 identifier upon creation. UUID v7 embeds millisecond Unix timestamps in the high 48 bits, providing strict chronological ordering for SQLite B-tree clustering and distributed synchronization without ID collisions.
 2. **Monetary Decimal Representation**: Currency values are persisted as exact fixed-point strings (`TEXT` in SQLite / `DECIMAL(18, 4)` in PostgreSQL). Arithmetic operations must use arbitrary-precision decimal libraries (`decimal.js` or `big.js`) to guarantee exact balance tracking without floating-point inaccuracies.
-3. **Symbol References**:
-   - `WalletEntity` in `src/modules/wallets/wallet.entity.ts`
-   - `ExpenseEntity` in `src/modules/expenses/expense.entity.ts`
-   - `IncomeEntity` in `src/modules/incomes/income.entity.ts`
-   - `CategoryEntity` in `src/modules/categories/category.entity.ts`
-   - `TransferEntity` in `src/modules/transfers/transfer.entity.ts`
-   - `ScheduleEntity` in `src/modules/schedules/schedule.entity.ts`
-   - `SyncQueueEntity` in `src/modules/sync/sync-queue.entity.ts`
-
-4. **ORM and Persistence Technology (Drizzle ORM)**:
-   - **Mobile**: Uses `drizzle-orm/expo-sqlite` wrapping `openDatabaseSync`. Schema definitions utilize `sqliteTable` with full compile-time typing, zero reflection overhead, and migration versioning via Drizzle Kit.
-   - **Backend**: Uses `drizzle-orm/node-postgres` with `pgTable` definitions enforcing server-side relational constraints and indexing.
+3. **Timezone-Safe Transaction Chronology (`occurredAt` & `minuteOfDay`)**:
+   - `occurredAt` is stored as a calendar date (`YYYY-MM-DD`) so historical transactions never shift across days when users travel across timezones.
+   - `minuteOfDay` (`0..1439`, nullable) captures intraday ordering in local time. Transaction creation forms default `occurredAt` to today and `minuteOfDay` to the current local minute, while allowing `null` for backdated date-only entries.
+   - `createdAt` and `updatedAt` record exact technical instants (UTC / Unix ms) for synchronization conflict resolution.
+4. **Theme-Aware Visual Attributes (`icon` & `color`)**:
+   - `icon` and `color` on `wallets` and `categories` are nullable in the database without hardcoded hex defaults. When `null`, the UI layer resolves default icons and theme-adaptive colors dynamically based on the active theme.
+5. **ORM and Centralized Schema Layout (Drizzle ORM)**:
+   - **Mobile**: Uses `drizzle-orm/expo-sqlite` wrapping `openDatabaseSync`. Schemas are centralized in `apps/mobile/src/database/schemas/*` using `snakeCase.table` and `defineRelations`.
+   - **Backend**: Uses `@neondatabase/serverless` and `drizzle-orm/neon-http` with schemas centralized in `apps/server/src/database/schemas/*` using `snakeCase.table` and `defineRelations`.
    - **Contracts**: Shared input validation and synchronization payloads are defined in `packages/shared` via Zod and inferred TypeScript types.
-5. **Module Directory Layout (`apps/mobile/src/modules/*`)**:
-   - `wallets/`: `wallet.schema.ts`, `wallet.service.ts`
-   - `expenses/`: `expense.schema.ts`, `expense.service.ts`
-   - `incomes/`: `income.schema.ts`, `income.service.ts`
-   - `categories/`: `category.schema.ts`, `category.service.ts`
-   - `transfers/`: `transfer.schema.ts`, `transfer.service.ts`
-   - `schedules/`: `schedule.schema.ts`, `schedule.runner.ts`
-   - `sync/`: `sync-queue.schema.ts`, `sync.worker.ts`, `sync.client.ts`
 
 ---
 
@@ -191,7 +180,7 @@ sequenceDiagram
     App->>Engine: Evaluate Schedules (On app open or midnight tick)
     Engine->>SQLite: Query active schedules WHERE is_active = 1
     loop Each Active Schedule
-        Engine->>Engine: Verify schedule recurrence (cron_rule / days_of_week)
+        Engine->>Engine: Verify schedule recurrence (cron_rule)
         alt Recurrence matches today AND last_executed_at < today
             alt execution_mode == AUTO_POST
                 Engine->>SQLite: INSERT INTO expenses (amount, title, wallet_id, category_id)
